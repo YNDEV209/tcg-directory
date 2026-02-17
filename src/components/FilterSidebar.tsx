@@ -1,6 +1,6 @@
 'use client'
 
-import { POKEMON_TYPES, MTG_COLORS, MTG_SUPERTYPES, TYPE_COLORS } from '@/lib/constants'
+import { POKEMON_TYPES, MTG_COLORS, MTG_SUPERTYPES, OP_COLORS, OP_SUPERTYPES, TYPE_COLORS } from '@/lib/constants'
 import type { CardSet, CardSearchParams } from '@/lib/types'
 
 interface FilterSidebarProps {
@@ -21,7 +21,8 @@ export function FilterSidebar({
   onReset,
 }: FilterSidebarProps) {
   const isMtg = gameId === 'mtg'
-  const colorTypes = isMtg ? [...MTG_COLORS] : [...POKEMON_TYPES]
+  const isOp = gameId === 'onepiece'
+  const colorTypes = isMtg ? [...MTG_COLORS] : isOp ? [...OP_COLORS] : [...POKEMON_TYPES]
   const activeTypes = filters.types || []
 
   const toggleType = (type: string) => {
@@ -72,6 +73,10 @@ export function FilterSidebar({
             MTG_SUPERTYPES.map((t) => (
               <option key={t} value={t}>{t}</option>
             ))
+          ) : isOp ? (
+            OP_SUPERTYPES.map((t) => (
+              <option key={t} value={t}>{t}</option>
+            ))
           ) : (
             <>
               <option value="Pokémon">Pokemon</option>
@@ -104,7 +109,7 @@ export function FilterSidebar({
       {/* Types / Colors */}
       <div>
         <label className="mb-2 block text-xs font-medium text-gray-600 dark:text-gray-300">
-          {isMtg ? 'Color' : 'Energy Type'}
+          {isMtg || isOp ? 'Color' : 'Energy Type'}
         </label>
         <div className="flex flex-wrap gap-1.5">
           {colorTypes.map((type) => (
@@ -145,7 +150,7 @@ export function FilterSidebar({
       {/* HP / Mana Value Range */}
       <div>
         <label className="mb-1 block text-xs font-medium text-gray-600 dark:text-gray-300">
-          {isMtg ? 'Mana Value' : 'HP Range'}
+          {isMtg ? 'Mana Value' : isOp ? 'Power Range' : 'HP Range'}
         </label>
         <div className="flex items-center gap-2">
           <input

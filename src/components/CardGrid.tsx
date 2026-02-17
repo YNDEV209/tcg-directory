@@ -92,7 +92,7 @@ function CardTile({ card }: { card: Card }) {
           ))}
           {card.hp != null && (
             <span className="ml-auto text-xs text-gray-500">
-              {card.game_id === 'mtg' ? `MV ${card.hp}` : `${card.hp} HP`}
+              {card.game_id === 'mtg' ? `MV ${card.hp}` : card.game_id === 'onepiece' ? `${card.hp} Power` : `${card.hp} HP`}
             </span>
           )}
         </div>

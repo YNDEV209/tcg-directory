@@ -32,9 +32,26 @@ export const MTG_SUPERTYPES = [
   'Land',
 ] as const
 
+export const OP_COLORS = [
+  'Red',
+  'Blue',
+  'Green',
+  'Purple',
+  'Black',
+  'Yellow',
+] as const
+
+export const OP_SUPERTYPES = [
+  'Leader',
+  'Character',
+  'Event',
+  'Stage',
+] as const
+
 export const GAMES = [
   { id: 'pokemon', name: 'Pokemon' },
   { id: 'mtg', name: 'MTG' },
+  { id: 'onepiece', name: 'One Piece' },
 ] as const
 
 export const TYPE_COLORS: Record<string, string> = {
@@ -54,4 +71,6 @@ export const TYPE_COLORS: Record<string, string> = {
   Black: 'bg-gray-900 text-white',
   Red: 'bg-red-600 text-white',
   Green: 'bg-green-600 text-white',
+  Yellow: 'bg-yellow-500 text-yellow-900',
+  Purple: 'bg-purple-600 text-white',
 }
