@@ -3,6 +3,7 @@
 import { useCallback, useSyncExternalStore } from 'react'
 
 const KEY = 'tcg-favorites'
+const EMPTY: string[] = []
 
 function getSnapshot(): string[] {
   if (typeof window === 'undefined') return []
@@ -38,7 +39,7 @@ export function useFavorites() {
   const favorites = useSyncExternalStore(
     subscribe,
     () => cache,
-    () => [] as string[]
+    () => EMPTY
   )
 
   const toggle = useCallback((id: string) => {

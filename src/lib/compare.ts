@@ -4,6 +4,7 @@ import { useCallback, useSyncExternalStore } from 'react'
 
 const KEY = 'tcg-compare'
 const MAX = 4
+const EMPTY: string[] = []
 
 function getSnapshot(): string[] {
   if (typeof window === 'undefined') return []
@@ -39,7 +40,7 @@ export function useCompare() {
   const compareList = useSyncExternalStore(
     subscribe,
     () => cache,
-    () => [] as string[]
+    () => EMPTY
   )
 
   const add = useCallback((id: string) => {

@@ -3,6 +3,7 @@
 import { useCallback, useSyncExternalStore } from 'react'
 
 const KEY = 'tcg-decks'
+const EMPTY: Deck[] = []
 
 export interface DeckCard {
   cardId: string
@@ -51,7 +52,7 @@ export function useDecks() {
   const decks = useSyncExternalStore(
     subscribe,
     () => cache,
-    () => [] as Deck[]
+    () => EMPTY
   )
 
   const createDeck = useCallback((name: string, gameId: string): Deck => {
