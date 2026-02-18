@@ -139,6 +139,16 @@ async function searchCardsFuzzy(
   }
 }
 
+export async function getCardsByIds(ids: string[]): Promise<Card[]> {
+  if (ids.length === 0) return []
+  const { data, error } = await supabase
+    .from('cards')
+    .select('*')
+    .in('id', ids)
+  if (error) throw new Error(error.message)
+  return (data || []) as Card[]
+}
+
 export async function getCardById(id: string): Promise<Card | null> {
   const { data, error } = await supabase
     .from('cards')

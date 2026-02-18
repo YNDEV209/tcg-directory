@@ -3,6 +3,9 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { getCardById } from '@/lib/queries'
 import { TYPE_COLORS } from '@/lib/constants'
+import { FavoriteButton } from '@/components/FavoriteButton'
+import { PriceSection } from '@/components/PriceDisplay'
+import { CompareButton } from '@/components/CompareButton'
 import type { Metadata } from 'next'
 
 interface Props {
@@ -92,9 +95,13 @@ export default async function CardDetailPage({ params }: Props) {
           {/* Card Details */}
           <div className="flex-1 space-y-6">
             <div>
-              <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
-                {card.name}
-              </h1>
+              <div className="flex items-center gap-3">
+                <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
+                  {card.name}
+                </h1>
+                <FavoriteButton cardId={card.id} />
+                <CompareButton cardId={card.id} />
+              </div>
               <div className="mt-2 flex flex-wrap items-center gap-2">
                 {card.supertype && (
                   <span className="rounded bg-gray-200 px-2 py-0.5 text-sm font-medium text-gray-700 dark:bg-gray-700 dark:text-gray-300">
@@ -265,6 +272,9 @@ export default async function CardDetailPage({ params }: Props) {
                 </div>
               </Section>
             )}
+
+            {/* Prices */}
+            <PriceSection gameId={card.game_id} prices={card.prices} />
 
             {/* Flavor Text */}
             {card.flavor_text && (

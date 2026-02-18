@@ -4,6 +4,9 @@ import Image from 'next/image'
 import Link from 'next/link'
 import type { Card } from '@/lib/types'
 import { TYPE_COLORS } from '@/lib/constants'
+import { FavoriteButton } from '@/components/FavoriteButton'
+import { CompareButton } from '@/components/CompareButton'
+import { PriceBadge } from '@/components/PriceDisplay'
 
 interface CardGridProps {
   cards: Card[]
@@ -61,7 +64,7 @@ function CardTile({ card }: { card: Card }) {
       href={`/cards/${card.id}`}
       className="group relative overflow-hidden rounded-lg bg-white shadow-md transition-all hover:-translate-y-1 hover:shadow-xl dark:bg-gray-800"
     >
-      <div className="aspect-[2.5/3.5] overflow-hidden">
+      <div className="aspect-[2.5/3.5] overflow-hidden relative">
         {card.image_small ? (
           <Image
             src={card.image_small}
@@ -76,6 +79,10 @@ function CardTile({ card }: { card: Card }) {
             No Image
           </div>
         )}
+        <div className="absolute top-1.5 right-1.5 flex flex-col gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+          <FavoriteButton cardId={card.id} size="sm" />
+          <CompareButton cardId={card.id} size="sm" />
+        </div>
       </div>
       <div className="p-2">
         <p className="truncate text-sm font-medium dark:text-white">
@@ -90,11 +97,14 @@ function CardTile({ card }: { card: Card }) {
               {type}
             </span>
           ))}
-          {card.hp != null && (
-            <span className="ml-auto text-xs text-gray-500">
-              {card.game_id === 'mtg' ? `MV ${card.hp}` : card.game_id === 'onepiece' ? `${card.hp} Power` : `${card.hp} HP`}
-            </span>
-          )}
+          <span className="ml-auto flex items-center gap-1">
+            <PriceBadge gameId={card.game_id} prices={card.prices} />
+            {card.hp != null && (
+              <span className="text-xs text-gray-500">
+                {card.game_id === 'mtg' ? `MV ${card.hp}` : card.game_id === 'onepiece' ? `${card.hp} Power` : `${card.hp} HP`}
+              </span>
+            )}
+          </span>
         </div>
       </div>
     </Link>

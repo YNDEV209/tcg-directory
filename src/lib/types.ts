@@ -54,6 +54,11 @@ export interface CardPrices {
     updatedAt: string
     prices: Record<string, number>
   }
+  scryfall?: {
+    prices: Record<string, string | null>
+  }
+  market?: number
+  [key: string]: unknown
 }
 
 export interface CardSet {

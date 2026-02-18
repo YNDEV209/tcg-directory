@@ -1,9 +1,19 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { searchCards, getFilterOptions } from '@/lib/queries'
+import { searchCards, getCardsByIds, getFilterOptions } from '@/lib/queries'
 import type { CardSearchParams } from '@/lib/types'
 
 export async function GET(req: NextRequest) {
   const sp = req.nextUrl.searchParams
+
+  const ids = sp.get('ids')?.split(',').filter(Boolean)
+  if (ids && ids.length > 0) {
+    try {
+      const cards = await getCardsByIds(ids)
+      return NextResponse.json({ data: cards, total: cards.length, page: 1, per_page: cards.length, total_pages: 1 })
+    } catch (e) {
+      return NextResponse.json({ error: (e as Error).message }, { status: 500 })
+    }
+  }
 
   const params: CardSearchParams = {
     q: sp.get('q') || undefined,

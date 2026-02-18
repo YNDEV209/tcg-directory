@@ -2,6 +2,7 @@
 
 import { Suspense, useCallback, useEffect, useState } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
+import Link from 'next/link'
 import { SearchBar } from '@/components/SearchBar'
 import { FilterSidebar } from '@/components/FilterSidebar'
 import { CardGrid } from '@/components/CardGrid'
@@ -164,7 +165,15 @@ function HomeContent() {
             TCG Directory
           </h1>
           <SearchBar value={filters.q || ''} onChange={handleSearch} />
-          <ThemeToggle />
+          <div className="flex items-center gap-2">
+            <Link href="/favorites" className="rounded-lg px-2 py-1.5 text-sm text-gray-600 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700" title="Favorites">
+              &#9829;
+            </Link>
+            <Link href="/decks" className="rounded-lg px-2 py-1.5 text-sm text-gray-600 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700" title="Decks">
+              Decks
+            </Link>
+            <ThemeToggle />
+          </div>
         </div>
         <div className="mx-auto flex max-w-7xl gap-1 px-4 pb-0">
           {GAMES.map((g) => (
