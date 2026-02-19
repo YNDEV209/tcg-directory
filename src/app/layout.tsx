@@ -34,6 +34,9 @@ export const metadata: Metadata = {
     title: 'TCG Directory',
     description: 'Browse and search trading cards from Pokemon, MTG, and more',
   },
+  verification: {
+    google: '-5ygCHju_Rh_IwhNzNfCBx1rFdhJNyzz9p2BCASOCBk',
+  },
 };
 
 export default function RootLayout({
