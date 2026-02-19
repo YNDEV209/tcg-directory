@@ -1,7 +1,5 @@
 {
   "crons": [
-    { "path": "/api/cron/update-prices", "schedule": "0 2 * * 0" },
-    { "path": "/api/cron/seed-onepiece", "schedule": "0 3 1,15 * *" },
-    { "path": "/api/cron/seed-mtg", "schedule": "0 4 1 * *" }
+    { "path": "/api/cron/sync-all", "schedule": "0 3 * * *" }
   ]
 }
