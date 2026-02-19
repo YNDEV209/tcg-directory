@@ -16,7 +16,7 @@ interface CardGridProps {
 export function CardGrid({ cards, loading }: CardGridProps) {
   if (loading) {
     return (
-      <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 xl:grid-cols-5">
+      <div className="grid grid-cols-2 gap-2 sm:gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 xl:grid-cols-5">
         {Array.from({ length: 24 }).map((_, i) => (
           <div
             key={i}
@@ -50,7 +50,7 @@ export function CardGrid({ cards, loading }: CardGridProps) {
   }
 
   return (
-    <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 xl:grid-cols-5">
+    <div className="grid grid-cols-2 gap-2 sm:gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 xl:grid-cols-5">
       {cards.map((card) => (
         <CardTile key={card.id} card={card} />
       ))}
@@ -79,7 +79,7 @@ function CardTile({ card }: { card: Card }) {
             No Image
           </div>
         )}
-        <div className="absolute top-1.5 right-1.5 flex flex-col gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+        <div className="absolute top-1.5 right-1.5 flex flex-col gap-1 opacity-100 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity">
           <FavoriteButton cardId={card.id} size="sm" />
           <CompareButton cardId={card.id} size="sm" />
         </div>

@@ -200,14 +200,14 @@ export default function DeckEditorPage() {
                       <div className="flex items-center gap-2">
                         <button
                           onClick={() => removeCard(deck.id, card.id)}
-                          className="rounded border border-gray-300 px-2 py-0.5 text-sm dark:border-gray-600 dark:text-gray-300"
+                          className="h-9 w-9 flex items-center justify-center rounded border border-gray-300 text-sm dark:border-gray-600 dark:text-gray-300"
                         >
                           -
                         </button>
                         <span className="w-6 text-center text-sm font-bold dark:text-white">{dc.count}</span>
                         <button
                           onClick={() => addCard(deck.id, card.id)}
-                          className="rounded border border-gray-300 px-2 py-0.5 text-sm dark:border-gray-600 dark:text-gray-300"
+                          className="h-9 w-9 flex items-center justify-center rounded border border-gray-300 text-sm dark:border-gray-600 dark:text-gray-300"
                         >
                           +
                         </button>

@@ -175,12 +175,12 @@ function HomeContent() {
             <ThemeToggle />
           </div>
         </div>
-        <div className="mx-auto flex max-w-7xl gap-1 px-4 pb-0">
+        <div className="mx-auto flex max-w-7xl gap-1 px-4 pb-0 overflow-x-auto scrollbar-hide">
           {GAMES.map((g) => (
             <button
               key={g.id}
               onClick={() => handleGameChange(g.id)}
-              className={`rounded-t-lg px-4 py-2 text-sm font-medium transition-colors ${
+              className={`shrink-0 rounded-t-lg px-4 py-2 text-sm font-medium transition-colors ${
                 gameId === g.id
                   ? 'bg-gray-100 text-gray-900 dark:bg-gray-700 dark:text-white'
                   : 'text-gray-500 hover:bg-gray-50 hover:text-gray-700 dark:text-gray-400 dark:hover:bg-gray-700/50'
@@ -194,39 +194,37 @@ function HomeContent() {
 
       <div className="mx-auto flex max-w-7xl flex-col gap-6 p-4 lg:flex-row lg:p-6">
         {/* Mobile filter drawer */}
-        {mobileFiltersOpen && (
-          <div className="fixed inset-0 z-40 lg:hidden">
-            <div
-              className="absolute inset-0 bg-black/50"
-              onClick={() => setMobileFiltersOpen(false)}
-            />
-            <div className="absolute inset-y-0 left-0 w-72 overflow-y-auto bg-white p-4 shadow-xl dark:bg-gray-800">
-              <div className="mb-4 flex items-center justify-between">
-                <span className="font-semibold dark:text-white">Filters</span>
-                <button
-                  onClick={() => setMobileFiltersOpen(false)}
-                  className="text-gray-500 hover:text-gray-700 dark:text-gray-400"
-                >
-                  &times;
-                </button>
-              </div>
-              <FilterSidebar
-                gameId={gameId}
-                filters={filters}
-                sets={sets}
-                rarities={rarities}
-                onChange={(f) => {
-                  handleFilterChange(f)
-                  setMobileFiltersOpen(false)
-                }}
-                onReset={() => {
-                  handleReset()
-                  setMobileFiltersOpen(false)
-                }}
-              />
+        <div className={`fixed inset-0 z-40 lg:hidden transition-opacity duration-200 ${mobileFiltersOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
+          <div
+            className="absolute inset-0 bg-black/50"
+            onClick={() => setMobileFiltersOpen(false)}
+          />
+          <div className={`absolute inset-y-0 left-0 w-72 overflow-y-auto bg-white p-4 shadow-xl dark:bg-gray-800 transition-transform duration-200 ${mobileFiltersOpen ? 'translate-x-0' : '-translate-x-full'}`}>
+            <div className="mb-4 flex items-center justify-between">
+              <span className="font-semibold dark:text-white">Filters</span>
+              <button
+                onClick={() => setMobileFiltersOpen(false)}
+                className="text-gray-500 hover:text-gray-700 dark:text-gray-400"
+              >
+                &times;
+              </button>
             </div>
+            <FilterSidebar
+              gameId={gameId}
+              filters={filters}
+              sets={sets}
+              rarities={rarities}
+              onChange={(f) => {
+                handleFilterChange(f)
+                setMobileFiltersOpen(false)
+              }}
+              onReset={() => {
+                handleReset()
+                setMobileFiltersOpen(false)
+              }}
+            />
           </div>
-        )}
+        </div>
 
         {/* Desktop sidebar */}
         <div className="hidden lg:block">

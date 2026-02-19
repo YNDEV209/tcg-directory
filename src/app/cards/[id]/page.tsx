@@ -80,18 +80,18 @@ export default async function CardDetailPage({ params }: Props) {
       <div className="mx-auto max-w-7xl p-4 lg:p-8">
         <div className="flex flex-col gap-8 lg:flex-row">
           {/* Card Image */}
-          <div className="flex-shrink-0">
+          <div className="w-full max-w-[490px] flex-shrink-0 mx-auto lg:mx-0">
             {card.image_large ? (
               <Image
                 src={card.image_large}
                 alt={card.name}
                 width={490}
                 height={680}
-                className="rounded-xl shadow-2xl"
+                className="w-full h-auto rounded-xl shadow-2xl"
                 priority
               />
             ) : (
-              <div className="flex h-[680px] w-[490px] items-center justify-center rounded-xl bg-gray-200 text-gray-400">
+              <div className="aspect-[490/680] w-full flex items-center justify-center rounded-xl bg-gray-200 text-gray-400">
                 No Image
               </div>
             )}
@@ -101,7 +101,7 @@ export default async function CardDetailPage({ params }: Props) {
           <div className="flex-1 space-y-6">
             <div>
               <div className="flex items-center gap-3">
-                <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
+                <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white">
                   {card.name}
                 </h1>
                 <FavoriteButton cardId={card.id} />

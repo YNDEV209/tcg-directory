@@ -29,7 +29,7 @@ export default async function SetsPage() {
       </header>
 
       <div className="mx-auto max-w-7xl p-4 lg:p-6">
-        <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+        <div className="grid gap-3 sm:gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
           {sets.map((set) => (
             <Link
               key={set.id}

@@ -82,7 +82,7 @@ function CompareContent() {
             {/* Card images */}
             <div className="flex gap-4 mb-6">
               {cards.map(card => (
-                <div key={card.id} className="flex-shrink-0 w-48">
+                <div key={card.id} className="flex-shrink-0 w-36 sm:w-48">
                   <div className="relative">
                     {card.image_small ? (
                       <Image
@@ -115,9 +115,9 @@ function CompareContent() {
             <table className="w-full text-sm">
               <thead>
                 <tr className="border-b border-gray-200 dark:border-gray-700">
-                  <th className="py-2 pr-4 text-left text-xs font-medium text-gray-500 dark:text-gray-400 w-32">Attribute</th>
+                  <th className="py-2 pr-4 text-left text-xs font-medium text-gray-500 dark:text-gray-400 w-24 sm:w-32">Attribute</th>
                   {cards.map(card => (
-                    <th key={card.id} className="py-2 px-2 text-left font-medium dark:text-white w-48">{card.name}</th>
+                    <th key={card.id} className="py-2 px-2 text-left font-medium dark:text-white min-w-[120px] sm:w-48">{card.name}</th>
                   ))}
                 </tr>
               </thead>

@@ -26,7 +26,7 @@ export function SearchBar({ value, onChange }: SearchBarProps) {
           value={input}
           onChange={(e) => setInput(e.target.value)}
           placeholder="Search cards by name..."
-          className="w-full rounded-lg border border-gray-300 bg-white px-4 py-3 pl-10 text-sm shadow-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-800 dark:text-white"
+          className="w-full rounded-lg border border-gray-300 bg-white px-4 py-2.5 sm:py-3 pl-10 pr-[88px] text-sm shadow-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-800 dark:text-white"
         />
         <svg
           className="absolute left-3 top-3.5 h-4 w-4 text-gray-400"
