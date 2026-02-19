@@ -98,4 +98,19 @@ export const TYPE_COLORS: Record<string, string> = {
   FIRE: 'bg-red-500 text-white',
   WIND: 'bg-emerald-500 text-white',
   DIVINE: 'bg-yellow-500 text-yellow-900',
+  // YGO frameTypes (supertype)
+  spell: 'bg-teal-600 text-white',
+  trap: 'bg-rose-700 text-white',
+  normal: 'bg-yellow-600 text-white',
+  effect: 'bg-orange-600 text-white',
+  ritual: 'bg-blue-800 text-white',
+  fusion: 'bg-purple-700 text-white',
+  synchro: 'bg-gray-200 text-gray-800',
+  xyz: 'bg-gray-900 text-white',
+  pendulum: 'bg-teal-500 text-white',
+  link: 'bg-blue-700 text-white',
+  // Gundam cardTypes (supertype)
+  UNIT: 'bg-blue-700 text-white',
+  COMMAND: 'bg-red-700 text-white',
+  CHARACTER: 'bg-amber-600 text-white',
 }

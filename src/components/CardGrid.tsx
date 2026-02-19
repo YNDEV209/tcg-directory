@@ -89,14 +89,22 @@ function CardTile({ card }: { card: Card }) {
           {card.name}
         </p>
         <div className="mt-1 flex items-center gap-1">
-          {card.types?.map((type) => (
-            <span
-              key={type}
-              className={`rounded px-1.5 py-0.5 text-[10px] font-medium ${TYPE_COLORS[type] || 'bg-gray-200 text-gray-700'}`}
-            >
-              {type}
-            </span>
-          ))}
+          {card.types && card.types.length > 0
+            ? card.types.map((type) => (
+                <span
+                  key={type}
+                  className={`rounded px-1.5 py-0.5 text-[10px] font-medium ${TYPE_COLORS[type] || 'bg-gray-200 text-gray-700'}`}
+                >
+                  {type}
+                </span>
+              ))
+            : card.supertype && (
+                <span
+                  className={`rounded px-1.5 py-0.5 text-[10px] font-medium ${TYPE_COLORS[card.supertype] || 'bg-gray-200 text-gray-700'}`}
+                >
+                  {card.supertype}
+                </span>
+              )}
           <span className="ml-auto flex items-center gap-1">
             <PriceBadge gameId={card.game_id} prices={card.prices} />
             {card.hp != null && (

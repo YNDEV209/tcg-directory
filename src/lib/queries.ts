@@ -20,18 +20,26 @@ export async function searchCards(
     per_page = 24,
   } = params
 
-  // Use fuzzy search when there's a text query
-  if (q) {
-    return searchCardsFuzzy(params)
-  }
-
   let query = supabase
     .from('cards')
     .select('*', { count: 'exact' })
     .eq('game_id', game_id)
 
+  if (q) {
+    query = query.ilike('name', `%${q}%`)
+  }
   if (set_id) {
-    query = query.eq('set_id', set_id)
+    // Check junction table first (YGO cards appear in many sets)
+    const { data: links } = await supabase
+      .from('card_set_links')
+      .select('card_id')
+      .eq('set_id', set_id)
+
+    if (links && links.length > 0) {
+      query = query.in('id', links.map(l => l.card_id))
+    } else {
+      query = query.eq('set_id', set_id)
+    }
   }
   if (types && types.length > 0) {
     query = query.overlaps('types', types)
@@ -65,73 +73,6 @@ export async function searchCards(
 
   return {
     data: (data || []) as Card[],
-    total: count || 0,
-    page,
-    per_page,
-    total_pages: Math.ceil((count || 0) / per_page),
-  }
-}
-
-async function searchCardsFuzzy(
-  params: CardSearchParams
-): Promise<PaginatedResponse<Card>> {
-  const {
-    q,
-    game_id = 'pokemon',
-    set_id,
-    types,
-    supertype,
-    rarity,
-    hp_min,
-    hp_max,
-    page = 1,
-    per_page = 24,
-  } = params
-
-  // Get fuzzy matched card IDs (get more than needed so we can filter)
-  const { data: fuzzyResults, error: fuzzyError } = await supabase.rpc(
-    'search_cards_fuzzy',
-    { search_term: q, game: game_id, max_results: 500 }
-  )
-
-  if (fuzzyError) throw new Error(fuzzyError.message)
-  if (!fuzzyResults || fuzzyResults.length === 0) {
-    return { data: [], total: 0, page, per_page, total_pages: 0 }
-  }
-
-  const matchedIds = (fuzzyResults as { card_id: string; sim: number }[]).map(
-    (r) => r.card_id
-  )
-
-  // Fetch full card data for matched IDs with additional filters
-  let query = supabase
-    .from('cards')
-    .select('*', { count: 'exact' })
-    .in('id', matchedIds)
-
-  if (set_id) query = query.eq('set_id', set_id)
-  if (types && types.length > 0) query = query.overlaps('types', types)
-  if (supertype) query = query.eq('supertype', supertype)
-  if (rarity) query = query.eq('rarity', rarity)
-  if (hp_min !== undefined) query = query.gte('hp', hp_min)
-  if (hp_max !== undefined) query = query.lte('hp', hp_max)
-
-  const from = (page - 1) * per_page
-  const to = from + per_page - 1
-  query = query.range(from, to)
-
-  const { data, count, error } = await query
-
-  if (error) throw new Error(error.message)
-
-  // Sort results by fuzzy similarity order
-  const idOrder = new Map(matchedIds.map((id, i) => [id, i]))
-  const sorted = (data || []).sort(
-    (a, b) => (idOrder.get(a.id) ?? 999) - (idOrder.get(b.id) ?? 999)
-  )
-
-  return {
-    data: sorted as Card[],
     total: count || 0,
     page,
     per_page,

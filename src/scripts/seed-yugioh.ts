@@ -78,13 +78,7 @@ async function seedSets() {
   return new Map(sets.map(s => [s.set_name, s.set_code]))
 }
 
-async function seedCards(setMap: Map<string, string>) {
-  console.log('Fetching all cards (this may take a moment)...')
-  const res = await fetch(CARDS_URL)
-  if (!res.ok) throw new Error(`Cards fetch failed: ${res.status}`)
-  const { data: cards }: { data: YGOCard[] } = await res.json()
-  console.log(`Downloaded ${cards.length} cards`)
-
+async function seedCards(cards: YGOCard[], setMap: Map<string, string>) {
   let inserted = 0
   const BATCH = 500
 
@@ -133,10 +127,53 @@ async function seedCards(setMap: Map<string, string>) {
   console.log(`Done! Total Yu-Gi-Oh! cards inserted: ${inserted}`)
 }
 
+async function seedCardSetLinks(cards: YGOCard[], setMap: Map<string, string>) {
+  console.log('Populating card-set links...')
+  let inserted = 0
+  const BATCH = 500
+
+  for (let i = 0; i < cards.length; i += BATCH) {
+    const chunk = cards.slice(i, i + BATCH)
+    const seen = new Set<string>()
+    const links: { card_id: string; set_id: string }[] = []
+
+    for (const c of chunk) {
+      if (!c.card_sets) continue
+      for (const cs of c.card_sets) {
+        const setCode = setMap.get(cs.set_name)
+        if (!setCode) continue
+        const key = `${c.id}-${setCode}`
+        if (seen.has(key)) continue
+        seen.add(key)
+        links.push({ card_id: `ygo-${c.id}`, set_id: `ygo-${setCode}` })
+      }
+    }
+
+    if (links.length > 0) {
+      const { error } = await supabase
+        .from('card_set_links')
+        .upsert(links, { onConflict: 'card_id,set_id' })
+      if (error) throw new Error(`Set links batch at ${i} failed: ${error.message}`)
+      inserted += links.length
+    }
+    console.log(`  Processed set links: ${Math.min(i + BATCH, cards.length)}/${cards.length}`)
+  }
+
+  console.log(`Done! Total set links inserted: ${inserted}`)
+}
+
 async function main() {
   await insertGame()
   const setMap = await seedSets()
-  await seedCards(setMap)
+
+  console.log('Fetching all cards (this may take a moment)...')
+  const res = await fetch(CARDS_URL)
+  if (!res.ok) throw new Error(`Cards fetch failed: ${res.status}`)
+  const { data: cards }: { data: YGOCard[] } = await res.json()
+  console.log(`Downloaded ${cards.length} cards`)
+
+  await seedCards(cards, setMap)
+  await seedCardSetLinks(cards, setMap)
 }
 
 main().catch(console.error)

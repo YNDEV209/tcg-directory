@@ -95,5 +95,32 @@ export async function GET(req: NextRequest) {
     if (!error) inserted += chunk.length
   }
 
-  return NextResponse.json({ sets: sets.length, inserted })
+  // Populate card-set links (many-to-many)
+  let linksInserted = 0
+  for (let i = 0; i < cards.length; i += 500) {
+    const chunk = cards.slice(i, i + 500)
+    const seen = new Set<string>()
+    const links: { card_id: string; set_id: string }[] = []
+
+    for (const c of chunk) {
+      if (!c.card_sets) continue
+      for (const cs of c.card_sets) {
+        const setCode = setMap.get(cs.set_name)
+        if (!setCode) continue
+        const key = `${c.id}-${setCode}`
+        if (seen.has(key)) continue
+        seen.add(key)
+        links.push({ card_id: `ygo-${c.id}`, set_id: `ygo-${setCode}` })
+      }
+    }
+
+    if (links.length > 0) {
+      const { error: linkError } = await supabase
+        .from('card_set_links')
+        .upsert(links, { onConflict: 'card_id,set_id' })
+      if (!linkError) linksInserted += links.length
+    }
+  }
+
+  return NextResponse.json({ sets: sets.length, inserted, linksInserted })
 }
