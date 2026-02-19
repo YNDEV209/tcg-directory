@@ -23,8 +23,10 @@ function CompareContent() {
   const { compareList, remove, clear } = useCompare()
   const [cards, setCards] = useState<Card[]>([])
   const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
 
-  const ids = searchParams.get('ids')?.split(',').filter(Boolean) || compareList
+  const idsStr = searchParams.get('ids') || compareList.join(',')
+  const ids = idsStr ? idsStr.split(',').filter(Boolean) : []
 
   useEffect(() => {
     if (ids.length === 0) {
@@ -33,12 +35,13 @@ function CompareContent() {
       return
     }
     setLoading(true)
-    fetch(`/api/cards?ids=${ids.join(',')}`)
+    setError(null)
+    fetch(`/api/cards?ids=${encodeURIComponent(idsStr)}`)
       .then(r => r.json())
-      .then(data => setCards(data.data))
-      .catch(console.error)
+      .then(data => setCards(data.data ?? []))
+      .catch(e => setError(e instanceof Error ? e.message : 'Failed to load cards'))
       .finally(() => setLoading(false))
-  }, [ids.join(',')])
+  }, [idsStr])
 
   return (
     <main className="min-h-screen bg-gray-50 dark:bg-gray-900">
@@ -64,6 +67,11 @@ function CompareContent() {
       <div className="mx-auto max-w-7xl p-4 lg:p-6">
         {loading ? (
           <p className="text-center text-gray-500">Loading...</p>
+        ) : error ? (
+          <div className="flex flex-col items-center justify-center py-20 text-red-500">
+            <p className="text-lg font-medium">Failed to load cards</p>
+            <p className="text-sm">{error}</p>
+          </div>
         ) : cards.length === 0 ? (
           <div className="flex flex-col items-center justify-center py-20 text-gray-500">
             <p className="text-lg font-medium">No cards to compare</p>

@@ -11,6 +11,7 @@ export default function FavoritesPage() {
   const { favorites } = useFavorites()
   const [cards, setCards] = useState<Card[]>([])
   const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
     if (favorites.length === 0) {
@@ -19,12 +20,13 @@ export default function FavoritesPage() {
       return
     }
     setLoading(true)
-    fetch(`/api/cards?ids=${favorites.join(',')}`)
+    setError(null)
+    fetch(`/api/cards?ids=${encodeURIComponent(favorites.join(','))}`)
       .then(r => r.json())
-      .then(data => setCards(data.data))
-      .catch(console.error)
+      .then(data => setCards(data.data ?? []))
+      .catch(e => setError(e instanceof Error ? e.message : 'Failed to load favorites'))
       .finally(() => setLoading(false))
-  }, [favorites])
+  }, [favorites.join(',')])
 
   return (
     <main className="min-h-screen bg-gray-50 dark:bg-gray-900">
@@ -49,6 +51,11 @@ export default function FavoritesPage() {
           <div className="flex flex-col items-center justify-center py-20 text-gray-500">
             <p className="text-lg font-medium">No favorites yet</p>
             <p className="text-sm">Click the heart icon on any card to add it here</p>
+          </div>
+        ) : error ? (
+          <div className="flex flex-col items-center justify-center py-20 text-red-500">
+            <p className="text-lg font-medium">Failed to load favorites</p>
+            <p className="text-sm">{error}</p>
           </div>
         ) : (
           <CardGrid cards={cards} loading={loading} />

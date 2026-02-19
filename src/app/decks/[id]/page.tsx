@@ -20,6 +20,8 @@ export default function DeckEditorPage() {
   const [searchResults, setSearchResults] = useState<Card[]>([])
   const [searching, setSearching] = useState(false)
 
+  const deckCardIds = deck?.cards.map(c => c.cardId).join(',') ?? ''
+
   // Fetch cards in deck
   useEffect(() => {
     if (!deck || deck.cards.length === 0) {
@@ -28,23 +30,22 @@ export default function DeckEditorPage() {
       return
     }
     setLoading(true)
-    const ids = deck.cards.map(c => c.cardId)
-    fetch(`/api/cards?ids=${ids.join(',')}`)
+    fetch(`/api/cards?ids=${encodeURIComponent(deckCardIds)}`)
       .then(r => r.json())
-      .then(data => setCards(data.data))
+      .then(data => setCards(data.data ?? []))
       .catch(console.error)
       .finally(() => setLoading(false))
-  }, [deck?.cards.map(c => c.cardId).join(',')])
+  }, [deckCardIds])
 
   const handleSearch = useCallback(() => {
     if (!search.trim() || !deck) return
     setSearching(true)
-    fetch(`/api/cards?game_id=${deck.gameId}&q=${encodeURIComponent(search)}&per_page=12`)
+    fetch(`/api/cards?game_id=${encodeURIComponent(deck.gameId)}&q=${encodeURIComponent(search)}&per_page=12`)
       .then(r => r.json())
-      .then(data => setSearchResults(data.data))
+      .then(data => setSearchResults(data.data ?? []))
       .catch(console.error)
       .finally(() => setSearching(false))
-  }, [search, deck])
+  }, [search, deck?.gameId])
 
   if (!deck) {
     return (
