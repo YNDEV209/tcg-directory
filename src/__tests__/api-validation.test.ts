@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest'
 
-const VALID_GAMES = new Set(['pokemon', 'mtg', 'onepiece'])
+const VALID_GAMES = new Set(['pokemon', 'mtg', 'onepiece', 'yugioh', 'gundam'])
 const MAX_IDS = 100
 const MAX_PER_PAGE = 100
 
@@ -32,6 +32,8 @@ describe('safeGameId', () => {
   it('accepts pokemon', () => expect(safeGameId('pokemon')).toBe('pokemon'))
   it('accepts mtg', () => expect(safeGameId('mtg')).toBe('mtg'))
   it('accepts onepiece', () => expect(safeGameId('onepiece')).toBe('onepiece'))
+  it('accepts yugioh', () => expect(safeGameId('yugioh')).toBe('yugioh'))
+  it('accepts gundam', () => expect(safeGameId('gundam')).toBe('gundam'))
 })
 
 describe('per_page cap', () => {

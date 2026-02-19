@@ -21,18 +21,18 @@ export const metadata: Metadata = {
     default: 'TCG Directory',
     template: '%s | TCG Directory',
   },
-  description: 'Browse and search trading cards from Pokemon, MTG, and more',
-  keywords: ['pokemon', 'tcg', 'trading cards', 'pokemon cards', 'card database', 'card search'],
+  description: 'Browse and search trading cards from Pokemon, MTG, Yu-Gi-Oh!, One Piece, and Gundam',
+  keywords: ['pokemon', 'mtg', 'yugioh', 'one piece', 'gundam', 'tcg', 'trading cards', 'card database', 'card search'],
   openGraph: {
     title: 'TCG Directory',
-    description: 'Browse and search trading cards from Pokemon, MTG, and more',
+    description: 'Browse and search trading cards from Pokemon, MTG, Yu-Gi-Oh!, One Piece, and Gundam',
     siteName: 'TCG Directory',
     type: 'website',
   },
   twitter: {
     card: 'summary_large_image',
     title: 'TCG Directory',
-    description: 'Browse and search trading cards from Pokemon, MTG, and more',
+    description: 'Browse and search trading cards from Pokemon, MTG, Yu-Gi-Oh!, One Piece, and Gundam',
   },
   verification: {
     google: '-5ygCHju_Rh_IwhNzNfCBx1rFdhJNyzz9p2BCASOCBk',

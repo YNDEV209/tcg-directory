@@ -16,7 +16,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { id } = await params
   const card = await getCardById(id)
   if (!card) return { title: 'Card Not Found' }
-  const gameName = card.game_id === 'mtg' ? 'Magic: The Gathering' : card.game_id === 'onepiece' ? 'One Piece TCG' : 'Pokemon TCG'
+  const gameNames: Record<string, string> = { mtg: 'Magic: The Gathering', onepiece: 'One Piece TCG', yugioh: 'Yu-Gi-Oh!', gundam: 'Gundam Card Game' }
+  const gameName = gameNames[card.game_id] || 'Pokemon TCG'
   const title = `${card.name} - ${card.supertype || 'Card'}`
   const description = `View details for ${card.name}${card.rarity ? ` (${card.rarity})` : ''} - ${card.supertype} card from ${gameName}`
   return {
@@ -43,13 +44,17 @@ export default async function CardDetailPage({ params }: Props) {
 
   const isMtg = card.game_id === 'mtg'
   const isOp = card.game_id === 'onepiece'
-  const backHref = isMtg ? '/?game=mtg' : isOp ? '/?game=onepiece' : '/'
+  const isYgo = card.game_id === 'yugioh'
+  const isGundam = card.game_id === 'gundam'
+  const backHref = card.game_id === 'pokemon' ? '/' : `/?game=${card.game_id}`
+  const gameNameMap: Record<string, string> = { mtg: 'Magic: The Gathering', onepiece: 'One Piece', yugioh: 'Yu-Gi-Oh!', gundam: 'Gundam' }
+  const displayGameName = gameNameMap[card.game_id] || 'Pokemon'
 
   const jsonLd = {
     '@context': 'https://schema.org',
     '@type': 'Product',
     name: card.name,
-    description: `${card.supertype}${card.rarity ? ` - ${card.rarity}` : ''} ${isMtg ? 'Magic: The Gathering' : isOp ? 'One Piece' : 'Pokemon'} trading card`,
+    description: `${card.supertype}${card.rarity ? ` - ${card.rarity}` : ''} ${displayGameName} trading card`,
     ...(card.image_large && { image: card.image_large }),
     ...(card.artist && { creator: { '@type': 'Person', name: card.artist } }),
     category: 'Trading Cards',
@@ -126,7 +131,7 @@ export default async function CardDetailPage({ params }: Props) {
                 ))}
                 {card.hp != null && (
                   <span className="rounded bg-red-100 px-2 py-0.5 text-sm font-bold text-red-700">
-                    {isMtg ? `MV ${card.hp}` : isOp ? `${card.hp} Power` : `${card.hp} HP`}
+                    {isYgo ? `Lv ${card.hp}` : isGundam ? `${card.hp} HP` : isMtg ? `MV ${card.hp}` : isOp ? `${card.hp} Power` : `${card.hp} HP`}
                   </span>
                 )}
               </div>
@@ -134,7 +139,7 @@ export default async function CardDetailPage({ params }: Props) {
 
             {/* Attacks / Oracle Text */}
             {card.attacks && card.attacks.length > 0 && (
-              <Section title={isMtg ? 'Oracle Text' : isOp ? 'Card Effect' : 'Attacks'}>
+              <Section title={isMtg ? 'Oracle Text' : isYgo || isOp || isGundam ? 'Card Effect' : 'Attacks'}>
                 {card.attacks.map((atk, i) => (
                   <div
                     key={i}
@@ -190,7 +195,37 @@ export default async function CardDetailPage({ params }: Props) {
             )}
 
             {/* Weaknesses / Resistances / Retreat (Pokemon) or P/T (MTG) */}
-            {isMtg ? (
+            {isYgo ? (
+              card.weaknesses && card.weaknesses.length > 0 && (
+                <div className="grid grid-cols-1 gap-4">
+                  <InfoBlock title="ATK / DEF">
+                    {card.weaknesses.map((w, i) => (
+                      <span key={i} className="text-lg font-bold dark:text-gray-300">
+                        {w.value}
+                      </span>
+                    ))}
+                  </InfoBlock>
+                </div>
+              )
+            ) : isGundam ? (
+              <div className="grid grid-cols-3 gap-4">
+                <InfoBlock title="AP">
+                  <span className="text-sm dark:text-gray-300">
+                    {card.weaknesses?.[0]?.value || 'N/A'}
+                  </span>
+                </InfoBlock>
+                <InfoBlock title="Zone">
+                  <span className="text-sm dark:text-gray-300">
+                    {card.resistances?.[0]?.value || 'N/A'}
+                  </span>
+                </InfoBlock>
+                <InfoBlock title="Cost">
+                  <span className="text-sm dark:text-gray-300">
+                    {card.retreat_cost ?? 'N/A'}
+                  </span>
+                </InfoBlock>
+              </div>
+            ) : isMtg ? (
               card.weaknesses && card.weaknesses.length > 0 && (
                 <div className="grid grid-cols-1 gap-4">
                   <InfoBlock title="Power / Toughness">
@@ -245,7 +280,7 @@ export default async function CardDetailPage({ params }: Props) {
             )}
 
             {/* Evolution (Pokemon only) */}
-            {!isMtg && !isOp && (card.evolves_from || (card.evolves_to && card.evolves_to.length > 0)) && (
+            {!isMtg && !isOp && !isYgo && !isGundam && (card.evolves_from || (card.evolves_to && card.evolves_to.length > 0)) && (
               <Section title="Evolution">
                 <div className="flex items-center gap-2 text-sm dark:text-gray-300">
                   {card.evolves_from && (

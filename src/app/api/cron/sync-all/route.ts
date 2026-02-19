@@ -46,6 +46,26 @@ export async function GET(req: NextRequest) {
     }
   }
 
+  // Yu-Gi-Oh! seed: every Sunday
+  if (dayOfWeek === 0) {
+    try {
+      const res = await fetch(`${origin}/api/cron/seed-yugioh`, { headers })
+      results.yugioh = await res.json()
+    } catch (e) {
+      results.yugioh = { error: e instanceof Error ? e.message : 'failed' }
+    }
+  }
+
+  // Gundam seed: 1st of month
+  if (day === 1) {
+    try {
+      const res = await fetch(`${origin}/api/cron/seed-gundam`, { headers })
+      results.gundam = await res.json()
+    } catch (e) {
+      results.gundam = { error: e instanceof Error ? e.message : 'failed' }
+    }
+  }
+
   const skipped = Object.keys(results).length === 0
   return NextResponse.json({ date: now.toISOString(), skipped, results })
 }

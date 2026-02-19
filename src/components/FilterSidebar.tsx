@@ -1,6 +1,6 @@
 'use client'
 
-import { POKEMON_TYPES, MTG_COLORS, MTG_SUPERTYPES, OP_COLORS, OP_SUPERTYPES, TYPE_COLORS } from '@/lib/constants'
+import { POKEMON_TYPES, MTG_COLORS, MTG_SUPERTYPES, OP_COLORS, OP_SUPERTYPES, YGO_ATTRIBUTES, YGO_FRAMETYPES, GUNDAM_COLORS, GUNDAM_TYPES, TYPE_COLORS } from '@/lib/constants'
 import type { CardSet, CardSearchParams } from '@/lib/types'
 
 interface FilterSidebarProps {
@@ -22,7 +22,9 @@ export function FilterSidebar({
 }: FilterSidebarProps) {
   const isMtg = gameId === 'mtg'
   const isOp = gameId === 'onepiece'
-  const colorTypes = isMtg ? [...MTG_COLORS] : isOp ? [...OP_COLORS] : [...POKEMON_TYPES]
+  const isYgo = gameId === 'yugioh'
+  const isGundam = gameId === 'gundam'
+  const colorTypes = isYgo ? [...YGO_ATTRIBUTES] : isGundam ? [...GUNDAM_COLORS] : isMtg ? [...MTG_COLORS] : isOp ? [...OP_COLORS] : [...POKEMON_TYPES]
   const activeTypes = filters.types || []
 
   const toggleType = (type: string) => {
@@ -69,7 +71,15 @@ export function FilterSidebar({
           className="w-full rounded border border-gray-300 bg-white px-2 py-1.5 text-sm dark:border-gray-600 dark:bg-gray-700 dark:text-white"
         >
           <option value="">All</option>
-          {isMtg ? (
+          {isYgo ? (
+            YGO_FRAMETYPES.map((t) => (
+              <option key={t} value={t}>{t}</option>
+            ))
+          ) : isGundam ? (
+            GUNDAM_TYPES.map((t) => (
+              <option key={t} value={t}>{t}</option>
+            ))
+          ) : isMtg ? (
             MTG_SUPERTYPES.map((t) => (
               <option key={t} value={t}>{t}</option>
             ))
@@ -109,7 +119,7 @@ export function FilterSidebar({
       {/* Types / Colors */}
       <div>
         <label className="mb-2 block text-xs font-medium text-gray-600 dark:text-gray-300">
-          {isMtg || isOp ? 'Color' : 'Energy Type'}
+          {isYgo ? 'Attribute' : isGundam || isMtg || isOp ? 'Color' : 'Energy Type'}
         </label>
         <div className="flex flex-wrap gap-1.5">
           {colorTypes.map((type) => (
@@ -150,7 +160,7 @@ export function FilterSidebar({
       {/* HP / Mana Value Range */}
       <div>
         <label className="mb-1 block text-xs font-medium text-gray-600 dark:text-gray-300">
-          {isMtg ? 'Mana Value' : isOp ? 'Power Range' : 'HP Range'}
+          {isYgo ? 'Level' : isGundam ? 'HP' : isMtg ? 'Mana Value' : isOp ? 'Power Range' : 'HP Range'}
         </label>
         <div className="flex items-center gap-2">
           <input

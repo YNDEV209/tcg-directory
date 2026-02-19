@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { searchCards, getCardsByIds, getFilterOptions } from '@/lib/queries'
 import type { CardSearchParams } from '@/lib/types'
 
-const VALID_GAMES = new Set(['pokemon', 'mtg', 'onepiece'])
+const VALID_GAMES = new Set(['pokemon', 'mtg', 'onepiece', 'yugioh', 'gundam'])
 const MAX_IDS = 100
 const MAX_PER_PAGE = 100
 

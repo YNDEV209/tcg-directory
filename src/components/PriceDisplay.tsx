@@ -15,6 +15,15 @@ function getPrice(gameId: string, prices: CardPrices | null): { label: string; v
     return null
   }
 
+  if (gameId === 'yugioh') {
+    const ygo = prices.ygoprodeck as Record<string, string> | undefined
+    if (ygo) {
+      const price = parseFloat(ygo.tcgplayer_price) || parseFloat(ygo.cardmarket_price) || 0
+      if (price > 0) return { label: 'TCGPlayer', value: `$${price.toFixed(2)}` }
+    }
+    return null
+  }
+
   // Pokemon - TCGPlayer
   const tcg = prices.tcgplayer?.prices
   if (tcg) {
@@ -51,6 +60,12 @@ export function PriceSection({ gameId, prices }: { gameId: string; prices: CardP
     if (typeof prices.market === 'number') {
       items.push({ label: 'Market Price', value: `$${prices.market.toFixed(2)}` })
     }
+  } else if (gameId === 'yugioh' && prices.ygoprodeck) {
+    const ygo = prices.ygoprodeck as Record<string, string>
+    if (parseFloat(ygo.tcgplayer_price)) items.push({ label: 'TCGPlayer', value: `$${parseFloat(ygo.tcgplayer_price).toFixed(2)}` })
+    if (parseFloat(ygo.cardmarket_price)) items.push({ label: 'Cardmarket', value: `\u20AC${parseFloat(ygo.cardmarket_price).toFixed(2)}` })
+    if (parseFloat(ygo.ebay_price)) items.push({ label: 'eBay', value: `$${parseFloat(ygo.ebay_price).toFixed(2)}` })
+    if (parseFloat(ygo.amazon_price)) items.push({ label: 'Amazon', value: `$${parseFloat(ygo.amazon_price).toFixed(2)}` })
   } else if (prices.tcgplayer?.prices) {
     for (const [variant, vals] of Object.entries(prices.tcgplayer.prices)) {
       const mid = vals.market ?? vals.mid

@@ -5,7 +5,7 @@ import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
   title: 'Browse Sets | TCG Directory',
-  description: 'Browse all TCG card sets for Pokemon, MTG, and One Piece',
+  description: 'Browse all TCG card sets for Pokemon, MTG, Yu-Gi-Oh!, One Piece, and Gundam',
 }
 
 export default async function SetsPage() {

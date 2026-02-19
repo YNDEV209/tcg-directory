@@ -48,10 +48,28 @@ export const OP_SUPERTYPES = [
   'Stage',
 ] as const
 
+export const YGO_ATTRIBUTES = [
+  'DARK', 'LIGHT', 'EARTH', 'WATER', 'FIRE', 'WIND', 'DIVINE',
+] as const
+
+export const YGO_FRAMETYPES = [
+  'normal', 'effect', 'ritual', 'fusion', 'synchro', 'xyz', 'pendulum', 'link', 'spell', 'trap',
+] as const
+
+export const GUNDAM_COLORS = [
+  'Blue', 'Red', 'Green', 'Yellow', 'White', 'Purple', 'Black',
+] as const
+
+export const GUNDAM_TYPES = [
+  'UNIT', 'COMMAND', 'CHARACTER',
+] as const
+
 export const GAMES = [
   { id: 'pokemon', name: 'Pokemon' },
   { id: 'mtg', name: 'MTG' },
   { id: 'onepiece', name: 'One Piece' },
+  { id: 'yugioh', name: 'Yu-Gi-Oh!' },
+  { id: 'gundam', name: 'Gundam' },
 ] as const
 
 export const TYPE_COLORS: Record<string, string> = {
@@ -73,4 +91,11 @@ export const TYPE_COLORS: Record<string, string> = {
   Green: 'bg-green-600 text-white',
   Yellow: 'bg-yellow-500 text-yellow-900',
   Purple: 'bg-purple-600 text-white',
+  DARK: 'bg-indigo-900 text-white',
+  LIGHT: 'bg-yellow-200 text-yellow-900',
+  EARTH: 'bg-amber-800 text-white',
+  WATER: 'bg-blue-500 text-white',
+  FIRE: 'bg-red-500 text-white',
+  WIND: 'bg-emerald-500 text-white',
+  DIVINE: 'bg-yellow-500 text-yellow-900',
 }
