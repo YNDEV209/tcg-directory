@@ -13,8 +13,10 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://tcg-directory.vercel.app'
+
 export const metadata: Metadata = {
-  metadataBase: new URL('https://tcg-directory.vercel.app'),
+  metadataBase: new URL(siteUrl),
   title: {
     default: 'TCG Directory',
     template: '%s | TCG Directory',
@@ -28,7 +30,7 @@ export const metadata: Metadata = {
     type: 'website',
   },
   twitter: {
-    card: 'summary',
+    card: 'summary_large_image',
     title: 'TCG Directory',
     description: 'Browse and search trading cards from Pokemon, MTG, and more',
   },
