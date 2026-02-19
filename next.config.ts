@@ -21,6 +21,14 @@ const nextConfig: NextConfig = {
         protocol: "https",
         hostname: "optcgapi.com",
       },
+      {
+        protocol: "https",
+        hostname: "images.ygoprodeck.com",
+      },
+      {
+        protocol: "https",
+        hostname: "raw.githubusercontent.com",
+      },
     ],
   },
 };
