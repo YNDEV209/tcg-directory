@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { supabase } from '@/lib/supabase'
+import { computeDerivedFields } from '@/lib/card-utils'
 
 const API_BASE = 'https://optcgapi.com/api'
 
@@ -57,6 +58,7 @@ export async function GET(req: NextRequest) {
           retreat_cost: typeof c.life === 'number' ? c.life : null,
           prices: c.market_price != null ? { market: c.market_price } : null,
           number: c.card_set_id,
+          ...computeDerivedFields('onepiece', c.rarity || null, c.market_price != null ? { market: c.market_price } : null),
         }
       })
 

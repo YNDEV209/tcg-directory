@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { supabase } from '@/lib/supabase'
+import { computeDerivedFields } from '@/lib/card-utils'
 
 const SCRYFALL_SETS = 'https://api.scryfall.com/sets'
 const UA = { 'User-Agent': 'TCGDirectory/1.0' }
@@ -71,6 +72,7 @@ function toRow(c: ScryfallCard) {
     prices: c.prices ? { scryfall: { prices: c.prices } } : null,
     evolves_from: null,
     evolves_to: [],
+    ...computeDerivedFields('mtg', c.rarity || null, c.prices ? { scryfall: { prices: c.prices } } : null),
   }
 }
 

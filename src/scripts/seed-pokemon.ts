@@ -1,5 +1,6 @@
 import 'dotenv/config'
 import { createClient } from '@supabase/supabase-js'
+import { computeDerivedFields } from '../lib/card-utils'
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -117,6 +118,7 @@ async function seedCards(sets: PokemonSet[]) {
       prices: null,
       evolves_from: c.evolvesFrom || null,
       evolves_to: c.evolvesTo || [],
+      ...computeDerivedFields('pokemon', c.rarity || null, null),
       raw_data: c,
     }))
 

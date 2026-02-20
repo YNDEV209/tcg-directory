@@ -1,5 +1,6 @@
 import 'dotenv/config'
 import { createClient } from '@supabase/supabase-js'
+import { computeDerivedFields } from '../lib/card-utils'
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -120,6 +121,7 @@ function mapCard(c: OPCard) {
     prices: c.market_price != null ? { market: c.market_price } : null,
     evolves_from: null,
     evolves_to: [],
+    ...computeDerivedFields('onepiece', c.rarity || null, c.market_price != null ? { market: c.market_price } : null),
     raw_data: c,
   }
 }

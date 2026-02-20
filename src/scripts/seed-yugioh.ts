@@ -1,5 +1,6 @@
 import 'dotenv/config'
 import { createClient } from '@supabase/supabase-js'
+import { computeDerivedFields } from '../lib/card-utils'
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -114,6 +115,7 @@ async function seedCards(cards: YGOCard[], setMap: Map<string, string>) {
         prices: c.card_prices?.[0] ? { ygoprodeck: c.card_prices[0] } : null,
         evolves_from: null,
         evolves_to: [],
+        ...computeDerivedFields('yugioh', firstSet?.set_rarity || null, c.card_prices?.[0] ? { ygoprodeck: c.card_prices[0] } : null),
         raw_data: c,
       }
     })

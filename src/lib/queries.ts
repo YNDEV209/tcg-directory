@@ -14,8 +14,8 @@ export async function searchCards(
     hp_min,
     hp_max,
     retreat_cost,
-    sort_by = 'name',
-    sort_dir = 'asc',
+    sort_by = 'featured',
+    sort_dir = 'desc',
     page = 1,
     per_page = 24,
   } = params
@@ -60,8 +60,15 @@ export async function searchCards(
     query = query.eq('retreat_cost', retreat_cost)
   }
 
-  const sortColumn = sort_by === 'set' ? 'set_id' : sort_by
-  query = query.order(sortColumn, { ascending: sort_dir === 'asc' })
+  if (sort_by === 'featured') {
+    query = query
+      .order('rarity_tier', { ascending: false, nullsFirst: false })
+      .order('price_usd', { ascending: false, nullsFirst: false })
+      .order('name', { ascending: true })
+  } else {
+    const sortColumn = sort_by === 'set' ? 'set_id' : sort_by
+    query = query.order(sortColumn, { ascending: sort_dir === 'asc' })
+  }
 
   const from = (page - 1) * per_page
   const to = from + per_page - 1

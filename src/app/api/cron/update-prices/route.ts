@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { supabase } from '@/lib/supabase'
+import { extractPriceUsd } from '@/lib/card-utils'
 
 export async function GET(req: NextRequest) {
   const auth = req.headers.get('authorization')
@@ -40,13 +41,17 @@ export async function GET(req: NextRequest) {
 
     const updates = data.data
       .filter(c => c.tcgplayer || c.cardmarket)
-      .map(c => ({
-        id: c.id,
-        prices: {
+      .map(c => {
+        const prices = {
           ...(c.tcgplayer ? { tcgplayer: c.tcgplayer } : {}),
           ...(c.cardmarket ? { cardmarket: c.cardmarket } : {}),
-        },
-      }))
+        }
+        return {
+          id: c.id,
+          prices,
+          price_usd: extractPriceUsd('pokemon', prices as import('@/lib/types').CardPrices),
+        }
+      })
 
     if (updates.length > 0) {
       const { error } = await supabase

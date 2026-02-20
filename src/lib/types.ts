@@ -22,6 +22,8 @@ export interface Card {
   prices: CardPrices | null
   evolves_from: string | null
   evolves_to: string[] | null
+  rarity_tier: number | null
+  price_usd: number | null
 }
 
 export interface Attack {
@@ -88,7 +90,7 @@ export interface CardSearchParams {
   hp_min?: number
   hp_max?: number
   retreat_cost?: number
-  sort_by?: 'name' | 'hp' | 'rarity' | 'set' | 'number'
+  sort_by?: 'name' | 'hp' | 'rarity' | 'set' | 'number' | 'featured'
   sort_dir?: 'asc' | 'desc'
   page?: number
   per_page?: number

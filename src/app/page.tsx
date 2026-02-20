@@ -41,8 +41,8 @@ function HomeContent() {
     rarity: searchParams.get('rarity') || undefined,
     hp_min: searchParams.get('hp_min') ? Number(searchParams.get('hp_min')) : undefined,
     hp_max: searchParams.get('hp_max') ? Number(searchParams.get('hp_max')) : undefined,
-    sort_by: (searchParams.get('sort_by') as CardSearchParams['sort_by']) || 'name',
-    sort_dir: (searchParams.get('sort_dir') as CardSearchParams['sort_dir']) || 'asc',
+    sort_by: (searchParams.get('sort_by') as CardSearchParams['sort_by']) || 'featured',
+    sort_dir: (searchParams.get('sort_dir') as CardSearchParams['sort_dir']) || 'desc',
     page: searchParams.get('page') ? Number(searchParams.get('page')) : 1,
     per_page: 24,
   }), [searchParams])
@@ -66,9 +66,9 @@ function HomeContent() {
       if (newFilters.rarity) params.set('rarity', newFilters.rarity)
       if (newFilters.hp_min) params.set('hp_min', String(newFilters.hp_min))
       if (newFilters.hp_max) params.set('hp_max', String(newFilters.hp_max))
-      if (newFilters.sort_by && newFilters.sort_by !== 'name')
+      if (newFilters.sort_by && newFilters.sort_by !== 'featured')
         params.set('sort_by', newFilters.sort_by)
-      if (newFilters.sort_dir && newFilters.sort_dir !== 'asc')
+      if (newFilters.sort_dir && newFilters.sort_dir !== 'desc')
         params.set('sort_dir', newFilters.sort_dir)
       if (newFilters.page && newFilters.page > 1)
         params.set('page', String(newFilters.page))

@@ -199,7 +199,7 @@ export function FilterSidebar({
           Sort By
         </label>
         <select
-          value={`${filters.sort_by || 'name'}-${filters.sort_dir || 'asc'}`}
+          value={`${filters.sort_by || 'featured'}-${filters.sort_dir || 'desc'}`}
           onChange={(e) => {
             const [sort_by, sort_dir] = e.target.value.split('-') as [
               CardSearchParams['sort_by'],
@@ -209,6 +209,7 @@ export function FilterSidebar({
           }}
           className="w-full rounded border border-gray-300 bg-white px-2 py-1.5 text-sm dark:border-gray-600 dark:bg-gray-700 dark:text-white"
         >
+          <option value="featured-desc">Featured</option>
           <option value="name-asc">Name (A-Z)</option>
           <option value="name-desc">Name (Z-A)</option>
           <option value="hp-desc">HP (High to Low)</option>

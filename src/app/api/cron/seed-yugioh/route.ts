@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { supabase } from '@/lib/supabase'
+import { computeDerivedFields } from '@/lib/card-utils'
 
 const CARDS_URL = 'https://db.ygoprodeck.com/api/v7/cardinfo.php'
 const SETS_URL = 'https://db.ygoprodeck.com/api/v7/cardsets.php'
@@ -88,6 +89,7 @@ export async function GET(req: NextRequest) {
         prices: c.card_prices?.[0] ? { ygoprodeck: c.card_prices[0] } : null,
         evolves_from: null,
         evolves_to: [],
+        ...computeDerivedFields('yugioh', firstSet?.set_rarity || null, c.card_prices?.[0] ? { ygoprodeck: c.card_prices[0] } : null),
       }
     })
 

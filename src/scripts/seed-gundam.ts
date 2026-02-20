@@ -1,5 +1,6 @@
 import 'dotenv/config'
 import { createClient } from '@supabase/supabase-js'
+import { computeDerivedFields } from '../lib/card-utils'
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -98,6 +99,7 @@ async function seedSetsAndCards() {
         prices: null,
         evolves_from: null,
         evolves_to: [],
+        ...computeDerivedFields('gundam', c.rarity || null, null),
       }
     })
 

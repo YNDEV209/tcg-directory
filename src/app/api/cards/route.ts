@@ -40,8 +40,8 @@ export async function GET(req: NextRequest) {
     hp_min: safeInt(sp.get('hp_min')),
     hp_max: safeInt(sp.get('hp_max')),
     retreat_cost: safeInt(sp.get('retreat_cost')),
-    sort_by: (sp.get('sort_by') as CardSearchParams['sort_by']) || 'name',
-    sort_dir: (sp.get('sort_dir') as CardSearchParams['sort_dir']) || 'asc',
+    sort_by: (sp.get('sort_by') as CardSearchParams['sort_by']) || 'featured',
+    sort_dir: (sp.get('sort_dir') as CardSearchParams['sort_dir']) || 'desc',
     page: safeInt(sp.get('page')) ?? 1,
     per_page: Math.min(safeInt(sp.get('per_page')) ?? 24, MAX_PER_PAGE),
   }

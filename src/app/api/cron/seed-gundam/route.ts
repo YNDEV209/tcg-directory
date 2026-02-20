@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { supabase } from '@/lib/supabase'
+import { computeDerivedFields } from '@/lib/card-utils'
 
 const BASE_URL = 'https://raw.githubusercontent.com/apitcg/gundam-tcg-data/main'
 const SET_IDS = ['st01', 'st02', 'st03', 'st04', 'st05', 'st06', 'gd01', 'gd02', 'beta', 'promotion']
@@ -65,6 +66,7 @@ export async function GET(req: NextRequest) {
         prices: null,
         evolves_from: null,
         evolves_to: [],
+        ...computeDerivedFields('gundam', c.rarity || null, null),
       }
     })
 
