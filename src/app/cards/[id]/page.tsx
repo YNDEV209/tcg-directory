@@ -6,6 +6,7 @@ import { TYPE_COLORS } from '@/lib/constants'
 import { FavoriteButton } from '@/components/FavoriteButton'
 import { PriceSection } from '@/components/PriceDisplay'
 import { CompareButton } from '@/components/CompareButton'
+import { AdUnit } from '@/components/AdUnit'
 import type { Metadata } from 'next'
 
 interface Props {
@@ -58,6 +59,16 @@ export default async function CardDetailPage({ params }: Props) {
     ...(card.image_large && { image: card.image_large }),
     ...(card.artist && { creator: { '@type': 'Person', name: card.artist } }),
     category: 'Trading Cards',
+    brand: { '@type': 'Brand', name: displayGameName },
+    sku: card.id,
+    ...(card.price_usd && {
+      offers: {
+        '@type': 'Offer',
+        price: card.price_usd.toFixed(2),
+        priceCurrency: 'USD',
+        availability: 'https://schema.org/InStock',
+      },
+    }),
   }
 
   return (
@@ -68,12 +79,19 @@ export default async function CardDetailPage({ params }: Props) {
       />
       <header className="border-b border-gray-200 bg-white px-4 py-4 shadow-sm dark:border-gray-700 dark:bg-gray-800">
         <div className="mx-auto max-w-7xl">
-          <Link
-            href={backHref}
-            className="text-sm text-blue-600 hover:underline dark:text-blue-400"
-          >
-            &larr; Back to search
-          </Link>
+          <nav className="flex items-center gap-1.5 text-sm text-gray-500 dark:text-gray-400">
+            <Link href="/" className="hover:text-blue-600 dark:hover:text-blue-400">Home</Link>
+            <span>/</span>
+            <Link href={backHref} className="hover:text-blue-600 dark:hover:text-blue-400">{displayGameName}</Link>
+            {card.set_id && (
+              <>
+                <span>/</span>
+                <Link href={`/sets/${card.set_id}`} className="hover:text-blue-600 dark:hover:text-blue-400 truncate max-w-[200px]">{card.set_id}</Link>
+              </>
+            )}
+            <span>/</span>
+            <span className="truncate text-gray-700 dark:text-gray-300">{card.name}</span>
+          </nav>
         </div>
       </header>
 
@@ -326,6 +344,8 @@ export default async function CardDetailPage({ params }: Props) {
             </div>
           </div>
         </div>
+
+        <AdUnit slot="CARD_DETAIL_BOTTOM" format="rectangle" className="mx-auto max-w-3xl pt-8" />
       </div>
     </main>
   )

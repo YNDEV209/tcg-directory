@@ -24,10 +24,10 @@ export default function OgImage() {
           TCG Directory
         </div>
         <div style={{ fontSize: 32, color: '#94a3b8', fontWeight: 400 }}>
-          Browse Pokemon · MTG · One Piece cards
+          Browse Pokemon · MTG · Yu-Gi-Oh! · One Piece · Gundam cards
         </div>
         <div style={{ display: 'flex', gap: 16, marginTop: 16 }}>
-          {['Pokemon', 'MTG', 'One Piece'].map((game) => (
+          {['Pokemon', 'MTG', 'Yu-Gi-Oh!', 'One Piece', 'Gundam'].map((game) => (
             <div
               key={game}
               style={{

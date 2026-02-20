@@ -81,7 +81,7 @@ async function seedSets() {
 
 async function seedCards(cards: YGOCard[], setMap: Map<string, string>) {
   let inserted = 0
-  const BATCH = 500
+  const BATCH = 100
 
   for (let i = 0; i < cards.length; i += BATCH) {
     const chunk = cards.slice(i, i + BATCH)
@@ -132,7 +132,7 @@ async function seedCards(cards: YGOCard[], setMap: Map<string, string>) {
 async function seedCardSetLinks(cards: YGOCard[], setMap: Map<string, string>) {
   console.log('Populating card-set links...')
   let inserted = 0
-  const BATCH = 500
+  const BATCH = 100
 
   for (let i = 0; i < cards.length; i += BATCH) {
     const chunk = cards.slice(i, i + BATCH)

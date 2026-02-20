@@ -119,6 +119,25 @@ export async function getSets(game_id = 'pokemon'): Promise<CardSet[]> {
   return (data || []) as CardSet[]
 }
 
+export async function getSetById(id: string): Promise<CardSet | null> {
+  const { data, error } = await supabase
+    .from('sets')
+    .select('*')
+    .eq('id', id)
+    .single()
+  if (error) return null
+  return data as CardSet
+}
+
+export async function getAllSets(): Promise<CardSet[]> {
+  const { data, error } = await supabase
+    .from('sets')
+    .select('*')
+    .order('release_date', { ascending: false })
+  if (error) throw new Error(error.message)
+  return (data || []) as CardSet[]
+}
+
 export async function getFilterOptions(game_id = 'pokemon') {
   const { data: rarityData } = await supabase.rpc('get_distinct_rarities', {
     gid: game_id,

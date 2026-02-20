@@ -9,6 +9,7 @@ import { CardGrid } from '@/components/CardGrid'
 import { Pagination } from '@/components/Pagination'
 import { ThemeToggle } from '@/components/ThemeToggle'
 import { GAMES } from '@/lib/constants'
+import { AdUnit } from '@/components/AdUnit'
 import type { Card, CardSet, CardSearchParams, PaginatedResponse } from '@/lib/types'
 
 export default function HomePage() {
@@ -266,6 +267,7 @@ function HomeContent() {
           )}
 
           <CardGrid cards={cards} loading={loading} />
+          <AdUnit slot="HOME_BOTTOM" format="horizontal" className="my-4" />
           <Pagination
             page={filters.page || 1}
             totalPages={totalPages}

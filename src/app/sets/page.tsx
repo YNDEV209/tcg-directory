@@ -1,6 +1,7 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import { getSets } from '@/lib/queries'
+import { AdUnit } from '@/components/AdUnit'
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
@@ -28,6 +29,7 @@ export default async function SetsPage() {
         </div>
       </header>
 
+      <AdUnit slot="SETS_LEADERBOARD" format="horizontal" className="mx-auto max-w-7xl px-4 pt-4" />
       <div className="mx-auto max-w-7xl p-4 lg:p-6">
         <div className="grid gap-3 sm:gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
           {sets.map((set) => (

@@ -139,7 +139,7 @@ async function seedCards(validSets: Set<string>) {
   console.log(`${filtered.length} cards after filtering`)
 
   let inserted = 0
-  const BATCH = 500
+  const BATCH = 100
 
   for (let i = 0; i < filtered.length; i += BATCH) {
     const chunk = filtered.slice(i, i + BATCH)
