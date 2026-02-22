@@ -65,6 +65,7 @@ export default async function GamePage({ params }: Props) {
     <main className="min-h-screen bg-gray-50 dark:bg-gray-900">
       <header className="border-b border-gray-200 bg-white px-4 py-4 shadow-sm dark:border-gray-700 dark:bg-gray-800">
         <div className="mx-auto flex max-w-7xl items-center gap-4">
+          <Link href="/" className="text-gray-400 hover:text-blue-600 dark:hover:text-blue-400">&larr;</Link>
           <Link href="/" className="text-xl font-bold text-gray-900 hover:text-blue-600 dark:text-white">
             TCG Directory
           </Link>

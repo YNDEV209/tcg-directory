@@ -26,10 +26,10 @@ export function SearchBar({ value, onChange }: SearchBarProps) {
           value={input}
           onChange={(e) => setInput(e.target.value)}
           placeholder="Search cards by name..."
-          className="w-full rounded-lg border border-gray-300 bg-white px-4 py-2.5 sm:py-3 pl-10 pr-[88px] text-sm shadow-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-800 dark:text-white"
+          className="w-full rounded-lg border border-gray-300 bg-white py-2.5 pl-10 pr-9 text-sm shadow-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-800 dark:text-white"
         />
         <svg
-          className="absolute left-3 top-3.5 h-4 w-4 text-gray-400"
+          className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400"
           fill="none"
           stroke="currentColor"
           viewBox="0 0 24 24"
@@ -48,17 +48,11 @@ export function SearchBar({ value, onChange }: SearchBarProps) {
               setInput('')
               onChange('')
             }}
-            className="absolute right-12 top-3 text-gray-400 hover:text-gray-600"
+            className="absolute right-2 top-1/2 -translate-y-1/2 p-1 text-lg text-gray-400 hover:text-gray-600 dark:hover:text-gray-300"
           >
             &times;
           </button>
         )}
-        <button
-          type="submit"
-          className="absolute right-2 top-1.5 rounded-md bg-blue-600 px-3 py-1.5 text-sm text-white hover:bg-blue-700"
-        >
-          Search
-        </button>
       </div>
     </form>
   )

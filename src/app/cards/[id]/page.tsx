@@ -80,6 +80,8 @@ export default async function CardDetailPage({ params }: Props) {
       <header className="border-b border-gray-200 bg-white px-4 py-4 shadow-sm dark:border-gray-700 dark:bg-gray-800">
         <div className="mx-auto max-w-7xl">
           <nav className="flex items-center gap-1.5 text-sm text-gray-500 dark:text-gray-400">
+            <Link href={backHref} className="hover:text-blue-600 dark:hover:text-blue-400">&larr;</Link>
+            <span>/</span>
             <Link href="/" className="hover:text-blue-600 dark:hover:text-blue-400">Home</Link>
             <span>/</span>
             <Link href={backHref} className="hover:text-blue-600 dark:hover:text-blue-400">{displayGameName}</Link>

@@ -240,16 +240,26 @@ function HomeContent() {
         </div>
 
         <div className="flex-1">
-          <div className="mb-4 flex items-center justify-between">
+          <div className="mb-4 flex items-center justify-between gap-2">
             <p className="text-sm text-gray-500 dark:text-gray-400">
               {loading ? 'Searching...' : `${total.toLocaleString()} cards found`}
             </p>
-            <button
-              onClick={() => setMobileFiltersOpen(true)}
-              className="rounded-lg border border-gray-300 px-3 py-1.5 text-sm text-gray-700 lg:hidden dark:border-gray-600 dark:text-gray-300"
-            >
-              Filters
-            </button>
+            <div className="flex items-center gap-2">
+              {(filters.q || filters.set_id || filters.supertype || filters.rarity || filters.types?.length || filters.hp_min || filters.hp_max) && (
+                <button
+                  onClick={handleReset}
+                  className="rounded-lg px-2 py-1.5 text-xs text-red-600 hover:bg-red-50 dark:text-red-400 dark:hover:bg-red-900/20"
+                >
+                  Clear All
+                </button>
+              )}
+              <button
+                onClick={() => setMobileFiltersOpen(true)}
+                className="rounded-lg border border-gray-300 px-3 py-1.5 text-sm text-gray-700 lg:hidden dark:border-gray-600 dark:text-gray-300"
+              >
+                Filters
+              </button>
+            </div>
           </div>
 
           {error && (
