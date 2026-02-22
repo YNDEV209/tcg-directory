@@ -1,12 +1,13 @@
 import { notFound } from 'next/navigation'
 import Image from 'next/image'
 import Link from 'next/link'
-import { getCardById } from '@/lib/queries'
+import { getCardById, getCardSets } from '@/lib/queries'
 import { TYPE_COLORS } from '@/lib/constants'
 import { FavoriteButton } from '@/components/FavoriteButton'
 import { PriceSection } from '@/components/PriceDisplay'
 import { CompareButton } from '@/components/CompareButton'
 import { AdUnit } from '@/components/AdUnit'
+import { CardSets } from '@/components/CardSets'
 import type { Metadata } from 'next'
 
 interface Props {
@@ -42,6 +43,8 @@ export default async function CardDetailPage({ params }: Props) {
   const { id } = await params
   const card = await getCardById(id)
   if (!card) notFound()
+
+  const cardSets = await getCardSets(card.id, card.game_id, card.set_id)
 
   const isMtg = card.game_id === 'mtg'
   const isOp = card.game_id === 'onepiece'
@@ -88,7 +91,7 @@ export default async function CardDetailPage({ params }: Props) {
             {card.set_id && (
               <>
                 <span>/</span>
-                <Link href={`/sets/${card.set_id}`} className="hover:text-blue-600 dark:hover:text-blue-400 truncate max-w-[200px]">{card.set_id}</Link>
+                <Link href={`/sets/${card.set_id}`} className="hover:text-blue-600 dark:hover:text-blue-400 truncate max-w-[200px]">{card.set_name || card.set_id}</Link>
               </>
             )}
             <span>/</span>
@@ -330,6 +333,9 @@ export default async function CardDetailPage({ params }: Props) {
 
             {/* Prices */}
             <PriceSection gameId={card.game_id} prices={card.prices} />
+
+            {/* Found in Sets */}
+            <CardSets sets={cardSets} />
 
             {/* Flavor Text */}
             {card.flavor_text && (

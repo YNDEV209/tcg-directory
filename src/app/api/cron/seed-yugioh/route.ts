@@ -74,6 +74,8 @@ export async function GET(req: NextRequest) {
         id: `ygo-${c.id}`,
         game_id: 'yugioh',
         set_id: setCode ? `ygo-${setCode}` : null,
+        set_name: firstSet?.set_name || null,
+        set_count: c.card_sets?.length ?? 1,
         name: c.name,
         image_small: c.card_images[0]?.image_url_small || null,
         image_large: c.card_images[0]?.image_url || null,

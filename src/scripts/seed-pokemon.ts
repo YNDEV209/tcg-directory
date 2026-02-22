@@ -98,6 +98,8 @@ async function seedCards(sets: PokemonSet[]) {
       id: c.id,
       game_id: 'pokemon',
       set_id: set.id,
+      set_name: set.name,
+      set_count: 1,
       name: c.name,
       image_small: c.images.small,
       image_large: c.images.large,

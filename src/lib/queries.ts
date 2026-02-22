@@ -1,5 +1,5 @@
 import { supabase } from './supabase'
-import type { CardSearchParams, PaginatedResponse, Card, CardSet } from './types'
+import type { CardSearchParams, PaginatedResponse, Card, CardSet, CardSetInfo } from './types'
 
 export async function searchCards(
   params: CardSearchParams
@@ -136,6 +136,60 @@ export async function getAllSets(): Promise<CardSet[]> {
     .order('release_date', { ascending: false })
   if (error) throw new Error(error.message)
   return (data || []) as CardSet[]
+}
+
+export async function getCardSets(cardId: string, gameId: string, setId: string | null): Promise<CardSetInfo[]> {
+  if (gameId === 'yugioh') {
+    // YGO cards can appear in many sets — use junction table + raw_data
+    const [{ data: links }, { data: cardRow }] = await Promise.all([
+      supabase.from('card_set_links').select('set_id').eq('card_id', cardId),
+      supabase.from('cards').select('raw_data').eq('id', cardId).single(),
+    ])
+
+    const setIds = links?.map(l => l.set_id) || []
+    if (setIds.length === 0 && setId) setIds.push(setId)
+
+    if (setIds.length === 0) return []
+
+    const { data: sets } = await supabase
+      .from('sets')
+      .select('*')
+      .in('id', setIds)
+      .order('release_date', { ascending: false })
+
+    // Build a map of set_name → {rarity, price} from raw_data.card_sets
+    const rawSets: Record<string, { rarity: string; price: string }> = {}
+    const rawCardSets = (cardRow?.raw_data as { card_sets?: { set_name: string; set_rarity: string; set_price: string }[] })?.card_sets
+    if (rawCardSets) {
+      for (const cs of rawCardSets) {
+        rawSets[cs.set_name] = { rarity: cs.set_rarity, price: cs.set_price }
+      }
+    }
+
+    return (sets || []).map(s => ({
+      set_id: s.id,
+      set_name: s.name,
+      logo_url: s.logo_url,
+      symbol_url: s.symbol_url,
+      release_date: s.release_date,
+      rarity_in_set: rawSets[s.name]?.rarity || null,
+      price_in_set: rawSets[s.name]?.price || null,
+    }))
+  }
+
+  // Non-YGO: single set
+  if (!setId) return []
+  const set = await getSetById(setId)
+  if (!set) return []
+  return [{
+    set_id: set.id,
+    set_name: set.name,
+    logo_url: set.logo_url,
+    symbol_url: set.symbol_url,
+    release_date: set.release_date,
+    rarity_in_set: null,
+    price_in_set: null,
+  }]
 }
 
 export async function getFilterOptions(game_id = 'pokemon') {
