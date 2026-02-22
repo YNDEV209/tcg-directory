@@ -161,19 +161,26 @@ function HomeContent() {
   return (
     <main className="min-h-screen bg-gray-50 dark:bg-gray-900">
       <header className="border-b border-gray-200 bg-white shadow-sm dark:border-gray-700 dark:bg-gray-800">
-        <div className="mx-auto flex max-w-7xl items-center gap-4 px-4 py-4">
-          <h1 className="shrink-0 text-xl font-bold text-gray-900 dark:text-white">
-            TCG Directory
-          </h1>
-          <SearchBar value={filters.q || ''} onChange={handleSearch} />
-          <div className="flex items-center gap-2">
-            <Link href="/favorites" className="rounded-lg px-2 py-1.5 text-sm text-gray-600 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700" title="Favorites">
-              &#9829;
-            </Link>
-            <Link href="/decks" className="rounded-lg px-2 py-1.5 text-sm text-gray-600 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700" title="Decks">
-              Decks
-            </Link>
-            <ThemeToggle />
+        <div className="mx-auto max-w-7xl px-4 py-4">
+          <div className="flex items-center justify-between gap-4">
+            <h1 className="shrink-0 text-xl font-bold text-gray-900 dark:text-white">
+              TCG Directory
+            </h1>
+            <div className="hidden flex-1 sm:block">
+              <SearchBar value={filters.q || ''} onChange={handleSearch} />
+            </div>
+            <div className="flex items-center gap-2">
+              <Link href="/favorites" className="rounded-lg px-2 py-1.5 text-sm text-gray-600 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700" title="Favorites">
+                &#9829;
+              </Link>
+              <Link href="/decks" className="rounded-lg px-2 py-1.5 text-sm text-gray-600 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700" title="Decks">
+                Decks
+              </Link>
+              <ThemeToggle />
+            </div>
+          </div>
+          <div className="mt-3 sm:hidden">
+            <SearchBar value={filters.q || ''} onChange={handleSearch} />
           </div>
         </div>
         <div className="mx-auto flex max-w-7xl gap-1 px-4 pb-0 overflow-x-auto scrollbar-hide">
