@@ -151,6 +151,8 @@ async function seedCards(validSets: Set<string>) {
         id: `mtg-${c.id}`,
         game_id: 'mtg',
         set_id: `mtg-${c.set}`,
+        set_name: c.set_name,
+        set_count: 1,
         name: c.name,
         image_small: images?.small || null,
         image_large: images?.large || images?.normal || null,

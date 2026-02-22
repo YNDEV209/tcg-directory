@@ -79,6 +79,8 @@ async function seedSetsAndCards() {
         id: `gd-${c.id}`,
         game_id: 'gundam',
         set_id: `gd-${c.set?.id || setId}`,
+        set_name: c.set?.name || setId,
+        set_count: 1,
         name: c.name,
         image_small: c.images?.small || null,
         image_large: c.images?.large || null,

@@ -97,6 +97,8 @@ function mapCard(c: OPCard) {
     id: `op-${c.card_set_id}`,
     game_id: 'onepiece',
     set_id: `op-${c.set_id}`,
+    set_name: c.set_name,
+    set_count: 1,
     name: c.card_name,
     image_small: c.card_image || null,
     image_large: c.card_image || null,

@@ -114,6 +114,12 @@ function CardTile({ card }: { card: Card }) {
             )}
           </span>
         </div>
+        {card.set_name && (
+          <p className="truncate text-[10px] text-gray-400 px-2 pb-1.5">
+            {card.set_name}
+            {(card.set_count ?? 1) > 1 && ` +${(card.set_count ?? 1) - 1} sets`}
+          </p>
+        )}
       </div>
     </Link>
   )

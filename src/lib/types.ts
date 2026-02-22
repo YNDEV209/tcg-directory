@@ -24,6 +24,8 @@ export interface Card {
   evolves_to: string[] | null
   rarity_tier: number | null
   price_usd: number | null
+  set_count: number | null
+  set_name: string | null
 }
 
 export interface Attack {
@@ -78,6 +80,16 @@ export interface Game {
   id: string
   name: string
   logo_url: string | null
+}
+
+export interface CardSetInfo {
+  set_id: string
+  set_name: string
+  logo_url: string | null
+  symbol_url: string | null
+  release_date: string | null
+  rarity_in_set: string | null
+  price_in_set: string | null
 }
 
 export interface CardSearchParams {
