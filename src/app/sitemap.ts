@@ -1,6 +1,7 @@
 import type { MetadataRoute } from 'next'
 import { supabase } from '@/lib/supabase'
 import { GAMES } from '@/lib/constants'
+import { getAllPosts } from '@/lib/blog'
 
 const baseUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://tcg-directory.vercel.app'
 
@@ -16,9 +17,11 @@ export default async function sitemap({ id }: { id: string }): Promise<MetadataR
 
   if (id === 'static') {
     const { data: sets } = await supabase.from('sets').select('id')
+    const posts = getAllPosts()
     return [
       { url: baseUrl, changeFrequency: 'daily', priority: 1, lastModified: now },
       { url: `${baseUrl}/sets`, changeFrequency: 'weekly', priority: 0.8 },
+      { url: `${baseUrl}/blog`, changeFrequency: 'weekly', priority: 0.8, lastModified: now },
       { url: `${baseUrl}/about`, changeFrequency: 'monthly', priority: 0.3 },
       { url: `${baseUrl}/privacy`, changeFrequency: 'monthly', priority: 0.3 },
       ...GAMES.map(g => ({
@@ -31,6 +34,12 @@ export default async function sitemap({ id }: { id: string }): Promise<MetadataR
         url: `${baseUrl}/sets/${s.id}`,
         changeFrequency: 'monthly' as const,
         priority: 0.7,
+      })),
+      ...posts.map(p => ({
+        url: `${baseUrl}/blog/${p.slug}`,
+        changeFrequency: 'monthly' as const,
+        priority: 0.7,
+        lastModified: p.date,
       })),
     ]
   }

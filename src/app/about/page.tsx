@@ -1,9 +1,11 @@
 import Link from 'next/link'
+import { siteUrl } from '@/lib/seo'
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
   title: 'About',
   description: 'About TCG Directory — a free trading card database for Pokemon, MTG, Yu-Gi-Oh!, One Piece, and Gundam',
+  alternates: { canonical: `${siteUrl}/about` },
 }
 
 export default function AboutPage() {

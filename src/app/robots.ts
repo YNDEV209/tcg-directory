@@ -3,7 +3,7 @@ import type { MetadataRoute } from 'next'
 export default function robots(): MetadataRoute.Robots {
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://tcg-directory.vercel.app'
   return {
-    rules: { userAgent: '*', allow: '/', disallow: ['/api/'] },
+    rules: { userAgent: '*', allow: '/', disallow: ['/api/', '/favorites', '/decks', '/compare'] },
     sitemap: `${siteUrl}/sitemap.xml`,
   }
 }

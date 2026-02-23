@@ -4,6 +4,7 @@ import Link from 'next/link'
 import { searchCards } from '@/lib/queries'
 import { GAMES } from '@/lib/constants'
 import { AdUnit } from '@/components/AdUnit'
+import { siteUrl, breadcrumbJsonLd } from '@/lib/seo'
 import type { Metadata } from 'next'
 
 const GAME_INFO: Record<string, { title: string; description: string; intro: string }> = {
@@ -49,6 +50,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return {
     title: info.title,
     description: info.description,
+    alternates: { canonical: `${siteUrl}/games/${game}` },
     openGraph: { title: info.title, description: info.description },
   }
 }
@@ -61,8 +63,17 @@ export default async function GamePage({ params }: Props) {
 
   const result = await searchCards({ game_id: game, sort_by: 'featured', sort_dir: 'desc', per_page: 24 })
 
+  const breadcrumbs = breadcrumbJsonLd([
+    { name: 'Home', url: siteUrl },
+    { name: gameName, url: `${siteUrl}/games/${game}` },
+  ])
+
   return (
     <main className="min-h-screen bg-gray-50 dark:bg-gray-900">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbs) }}
+      />
       <header className="border-b border-gray-200 bg-white px-4 py-4 shadow-sm dark:border-gray-700 dark:bg-gray-800">
         <div className="mx-auto flex max-w-7xl items-center gap-4">
           <Link href="/" className="text-gray-400 hover:text-blue-600 dark:hover:text-blue-400">&larr;</Link>
