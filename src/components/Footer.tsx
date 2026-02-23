@@ -6,6 +6,7 @@ export function Footer() {
       <div className="mx-auto max-w-7xl px-4 flex flex-col sm:flex-row items-center justify-between gap-4 text-sm text-gray-500 dark:text-gray-400">
         <p>&copy; {new Date().getFullYear()} TCG Directory</p>
         <nav className="flex gap-4">
+          <Link href="/blog" className="hover:text-gray-700 dark:hover:text-gray-200">Blog</Link>
           <Link href="/about" className="hover:text-gray-700 dark:hover:text-gray-200">About</Link>
           <Link href="/sets" className="hover:text-gray-700 dark:hover:text-gray-200">Sets</Link>
           <Link href="/privacy" className="hover:text-gray-700 dark:hover:text-gray-200">Privacy Policy</Link>

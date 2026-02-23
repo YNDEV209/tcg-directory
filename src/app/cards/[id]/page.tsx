@@ -8,6 +8,7 @@ import { PriceSection } from '@/components/PriceDisplay'
 import { CompareButton } from '@/components/CompareButton'
 import { AdUnit } from '@/components/AdUnit'
 import { CardSets } from '@/components/CardSets'
+import { siteUrl, breadcrumbJsonLd } from '@/lib/seo'
 import type { Metadata } from 'next'
 
 interface Props {
@@ -25,6 +26,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return {
     title,
     description,
+    alternates: { canonical: `${siteUrl}/cards/${id}` },
     openGraph: {
       title,
       description,
@@ -74,11 +76,22 @@ export default async function CardDetailPage({ params }: Props) {
     }),
   }
 
+  const breadcrumbs = breadcrumbJsonLd([
+    { name: 'Home', url: siteUrl },
+    { name: displayGameName, url: `${siteUrl}/games/${card.game_id}` },
+    ...(card.set_id ? [{ name: card.set_name || card.set_id, url: `${siteUrl}/sets/${card.set_id}` }] : []),
+    { name: card.name, url: `${siteUrl}/cards/${card.id}` },
+  ])
+
   return (
     <main className="min-h-screen bg-gray-50 dark:bg-gray-900">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbs) }}
       />
       <header className="border-b border-gray-200 bg-white px-4 py-4 shadow-sm dark:border-gray-700 dark:bg-gray-800">
         <div className="mx-auto max-w-7xl">

@@ -4,6 +4,7 @@ import Link from 'next/link'
 import { getSetById, searchCards } from '@/lib/queries'
 import { GAMES } from '@/lib/constants'
 import { AdUnit } from '@/components/AdUnit'
+import { siteUrl, breadcrumbJsonLd } from '@/lib/seo'
 import type { Metadata } from 'next'
 
 interface Props {
@@ -18,6 +19,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return {
     title: `${set.name} - ${gameName} Set`,
     description: `Browse all ${set.total || ''} cards from the ${set.name} ${gameName} set. View card details, prices, and rarity information.`,
+    alternates: { canonical: `${siteUrl}/sets/${id}` },
   }
 }
 
@@ -29,8 +31,39 @@ export default async function SetDetailPage({ params }: Props) {
   const gameName = GAMES.find(g => g.id === set.game_id)?.name || set.game_id
   const result = await searchCards({ game_id: set.game_id, set_id: set.id, sort_by: 'featured', sort_dir: 'desc', per_page: 100 })
 
+  const breadcrumbs = breadcrumbJsonLd([
+    { name: 'Home', url: siteUrl },
+    { name: gameName, url: `${siteUrl}/games/${set.game_id}` },
+    { name: 'Sets', url: `${siteUrl}/sets` },
+    { name: set.name, url: `${siteUrl}/sets/${set.id}` },
+  ])
+
+  const collectionJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'CollectionPage',
+    name: `${set.name} - ${gameName} Set`,
+    description: `Browse all ${result.total} cards from the ${set.name} ${gameName} set.`,
+    url: `${siteUrl}/sets/${set.id}`,
+    numberOfItems: result.total,
+    hasPart: result.data.slice(0, 20).map((card, i) => ({
+      '@type': 'ListItem',
+      position: i + 1,
+      url: `${siteUrl}/cards/${card.id}`,
+      name: card.name,
+      ...(card.image_small && { image: card.image_small }),
+    })),
+  }
+
   return (
     <main className="min-h-screen bg-gray-50 dark:bg-gray-900">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbs) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(collectionJsonLd) }}
+      />
       <header className="border-b border-gray-200 bg-white px-4 py-4 shadow-sm dark:border-gray-700 dark:bg-gray-800">
         <div className="mx-auto max-w-7xl">
           <nav className="flex items-center gap-1.5 text-sm text-gray-500 dark:text-gray-400">

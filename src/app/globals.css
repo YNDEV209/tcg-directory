@@ -133,3 +133,52 @@
     @apply bg-background text-foreground overflow-x-hidden;
   }
 }
+
+.blog-content {
+  @apply text-gray-700 leading-7 dark:text-gray-300;
+}
+.blog-content h2 {
+  @apply text-2xl font-bold mt-8 mb-3 text-gray-900 dark:text-white;
+}
+.blog-content h3 {
+  @apply text-xl font-semibold mt-6 mb-2 text-gray-800 dark:text-gray-200;
+}
+.blog-content p {
+  @apply mb-4;
+}
+.blog-content a {
+  @apply text-blue-600 underline dark:text-blue-400;
+}
+.blog-content ul, .blog-content ol {
+  @apply mb-4 pl-6;
+}
+.blog-content ul {
+  list-style-type: disc;
+}
+.blog-content ol {
+  list-style-type: decimal;
+}
+.blog-content li {
+  @apply mb-1;
+}
+.blog-content strong {
+  @apply font-bold;
+}
+.blog-content blockquote {
+  @apply border-l-4 border-gray-300 pl-4 italic text-gray-600 mb-4 dark:border-gray-600 dark:text-gray-400;
+}
+.blog-content table {
+  @apply w-full mb-4 border-collapse;
+}
+.blog-content th, .blog-content td {
+  @apply border border-gray-200 px-3 py-2 text-left dark:border-gray-700;
+}
+.blog-content th {
+  @apply bg-gray-100 font-semibold dark:bg-gray-800;
+}
+.blog-content code {
+  @apply bg-gray-100 px-1.5 py-0.5 rounded text-sm dark:bg-gray-800;
+}
+.blog-content hr {
+  @apply border-gray-200 my-8 dark:border-gray-700;
+}
