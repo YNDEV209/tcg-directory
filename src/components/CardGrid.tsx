@@ -88,6 +88,11 @@ function CardTile({ card }: { card: Card }) {
         <p className="truncate text-sm font-medium dark:text-white">
           {card.name}
         </p>
+        {(card.rarity || card.number) && (
+          <p className="truncate text-[10px] text-gray-500 dark:text-gray-400">
+            {[card.rarity, card.number].filter(Boolean).join(' · ')}
+          </p>
+        )}
         <div className="mt-1 flex items-center gap-1">
           {card.types && card.types.length > 0
             ? card.types.map((type) => (

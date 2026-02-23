@@ -25,6 +25,7 @@ export function FilterSidebar({
   const isYgo = gameId === 'yugioh'
   const isGundam = gameId === 'gundam'
   const colorTypes = isYgo ? [...YGO_ATTRIBUTES] : isGundam ? [...GUNDAM_COLORS] : isMtg ? [...MTG_COLORS] : isOp ? [...OP_COLORS] : [...POKEMON_TYPES]
+  const statLabel = isMtg ? 'Mana Value' : isOp ? 'Power' : isYgo ? 'Level' : 'HP'
   const activeTypes = filters.types || []
 
   const toggleType = (type: string) => {
@@ -212,8 +213,8 @@ export function FilterSidebar({
           <option value="featured-desc">Featured</option>
           <option value="name-asc">Name (A-Z)</option>
           <option value="name-desc">Name (Z-A)</option>
-          <option value="hp-desc">HP (High to Low)</option>
-          <option value="hp-asc">HP (Low to High)</option>
+          <option value="hp-desc">{statLabel} (High to Low)</option>
+          <option value="hp-asc">{statLabel} (Low to High)</option>
           <option value="number-asc">Number (Ascending)</option>
           <option value="number-desc">Number (Descending)</option>
         </select>
