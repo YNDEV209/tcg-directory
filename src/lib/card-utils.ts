@@ -19,7 +19,7 @@ const MTG_TIERS: Record<string, number> = {
 }
 
 const OP_TIERS: Record<string, number> = {
-  'Secret Rare': 5, 'SEC': 5, 'Manga Rare': 5, 'SP': 5,
+  'Secret Rare': 5, 'SEC': 5, 'Manga Rare': 5, 'SP': 5, 'Treasure Rare': 5, 'TR': 5,
   'Super Rare': 4, 'SR': 4, 'Leader': 4, 'L': 4,
   'Rare': 3, 'R': 3,
   'Uncommon': 2, 'UC': 2,
