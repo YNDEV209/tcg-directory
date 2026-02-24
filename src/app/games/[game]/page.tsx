@@ -107,7 +107,7 @@ export default async function GamePage({ params }: Props) {
           {result.data.map(card => (
             <Link key={card.id} href={`/cards/${card.id}`} className="group relative overflow-hidden rounded-lg border border-gray-200 bg-white shadow-sm transition-all hover:-translate-y-0.5 hover:shadow-md dark:border-gray-700 dark:bg-gray-800">
               {card.image_small ? (
-                <Image src={card.image_small} alt={card.name} width={245} height={342} className="w-full" />
+                <Image src={card.image_small} alt={card.name} width={245} height={342} className="w-full" unoptimized />
               ) : (
                 <div className="aspect-[245/342] bg-gray-100 dark:bg-gray-700 flex items-center justify-center text-xs text-gray-400">No Image</div>
               )}

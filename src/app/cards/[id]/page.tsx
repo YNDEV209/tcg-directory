@@ -124,6 +124,7 @@ export default async function CardDetailPage({ params }: Props) {
                 width={490}
                 height={680}
                 className="w-full h-auto rounded-xl shadow-2xl"
+                sizes="(max-width: 490px) 100vw, 490px"
                 priority
               />
             ) : (
