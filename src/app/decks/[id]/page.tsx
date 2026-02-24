@@ -79,12 +79,14 @@ export default function DeckEditorPage() {
           <Link href="/decks" className="text-sm text-blue-600 hover:underline dark:text-blue-400">
             &larr; Decks
           </Link>
-          <input
-            type="text"
-            defaultValue={deck.name}
-            onBlur={(e) => renameDeck(deck.id, e.target.value)}
-            className="text-xl font-bold bg-transparent text-gray-900 dark:text-white border-none outline-none focus:ring-0"
-          />
+          <h1>
+            <input
+              type="text"
+              defaultValue={deck.name}
+              onBlur={(e) => renameDeck(deck.id, e.target.value)}
+              className="text-xl font-bold bg-transparent text-gray-900 dark:text-white border-none outline-none focus:ring-0"
+            />
+          </h1>
           <span className="text-sm text-gray-500 dark:text-gray-400">
             {totalCards} cards
           </span>
