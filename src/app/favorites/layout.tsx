@@ -1,9 +1,8 @@
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: 'My Favorites',
-  description: 'Your saved favorite trading cards on TCG Directory',
-  robots: { index: false, follow: false },
+  title: 'My Favorite Cards',
+  description: 'View and manage your saved favorite trading cards from Pokemon, MTG, Yu-Gi-Oh!, One Piece, and Gundam.',
 }
 
 export default function Layout({ children }: { children: React.ReactNode }) {
