@@ -1,9 +1,8 @@
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: 'My Decks',
-  description: 'Your saved trading card decks on TCG Directory',
-  robots: { index: false, follow: false },
+  title: 'My Card Decks',
+  description: 'Build and manage trading card decks for Pokemon, MTG, Yu-Gi-Oh!, One Piece, and Gundam.',
 }
 
 export default function Layout({ children }: { children: React.ReactNode }) {

@@ -5,7 +5,7 @@ import { siteUrl } from '@/lib/seo'
 import { GAMES } from '@/lib/constants'
 
 export const metadata: Metadata = {
-  title: 'Blog',
+  title: 'Blog & Guides',
   description: 'TCG guides, deck lists, set reviews, and trading card game news for Pokemon, MTG, Yu-Gi-Oh!, One Piece, and Gundam.',
   alternates: { canonical: `${siteUrl}/blog` },
 }
