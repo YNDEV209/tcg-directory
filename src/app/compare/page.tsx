@@ -91,6 +91,7 @@ function CompareContent() {
                         width={245}
                         height={342}
                         className="rounded-lg shadow-md w-full"
+                        unoptimized
                       />
                     ) : (
                       <div className="aspect-[2.5/3.5] rounded-lg bg-gray-200 flex items-center justify-center text-gray-400 dark:bg-gray-700">

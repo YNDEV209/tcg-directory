@@ -83,7 +83,7 @@ export default async function SetDetailPage({ params }: Props) {
       <div className="mx-auto max-w-7xl px-4 py-6 space-y-6">
         <div className="flex items-center gap-4">
           {set.logo_url && (
-            <Image src={set.logo_url} alt={set.name} width={120} height={60} className="h-12 w-auto object-contain" />
+            <Image src={set.logo_url} alt={set.name} width={120} height={60} className="h-12 w-auto object-contain" sizes="120px" />
           )}
           <div>
             <h1 className="text-2xl font-bold text-gray-900 dark:text-white">{set.name}</h1>
@@ -102,7 +102,7 @@ export default async function SetDetailPage({ params }: Props) {
           {result.data.map(card => (
             <Link key={card.id} href={`/cards/${card.id}`} className="group relative overflow-hidden rounded-lg border border-gray-200 bg-white shadow-sm transition-all hover:-translate-y-0.5 hover:shadow-md dark:border-gray-700 dark:bg-gray-800">
               {card.image_small ? (
-                <Image src={card.image_small} alt={card.name} width={245} height={342} className="w-full" />
+                <Image src={card.image_small} alt={card.name} width={245} height={342} className="w-full" unoptimized />
               ) : (
                 <div className="aspect-[245/342] bg-gray-100 dark:bg-gray-700 flex items-center justify-center text-xs text-gray-400">No Image</div>
               )}

@@ -34,6 +34,7 @@ export function CardSets({ sets }: { sets: CardSetInfo[] }) {
                 width={24}
                 height={24}
                 className="h-6 w-6 object-contain"
+                sizes="24px"
               />
             )}
             <div className="min-w-0 flex-1">
