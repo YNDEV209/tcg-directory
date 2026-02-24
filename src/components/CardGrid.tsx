@@ -73,6 +73,7 @@ function CardTile({ card }: { card: Card }) {
             height={342}
             className="h-full w-full object-cover transition-transform group-hover:scale-105"
             loading="lazy"
+            unoptimized
           />
         ) : (
           <div className="flex h-full items-center justify-center bg-gray-100 text-gray-400 dark:bg-gray-700">

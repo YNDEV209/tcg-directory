@@ -123,7 +123,7 @@ export default function DeckEditorPage() {
                 {searchResults.map(card => (
                   <div key={card.id} className="flex items-center gap-2 rounded-lg border border-gray-200 p-2 dark:border-gray-700">
                     {card.image_small && (
-                      <Image src={card.image_small} alt={card.name} width={40} height={56} className="rounded" />
+                      <Image src={card.image_small} alt={card.name} width={40} height={56} className="rounded" unoptimized />
                     )}
                     <div className="flex-1 min-w-0">
                       <p className="truncate text-sm font-medium dark:text-white">{card.name}</p>
@@ -183,7 +183,7 @@ export default function DeckEditorPage() {
                   return (
                     <div key={dc.cardId} className="flex items-center gap-3 rounded-lg border border-gray-200 bg-white p-2 dark:border-gray-700 dark:bg-gray-800">
                       {card.image_small && (
-                        <Image src={card.image_small} alt={card.name} width={40} height={56} className="rounded" />
+                        <Image src={card.image_small} alt={card.name} width={40} height={56} className="rounded" unoptimized />
                       )}
                       <div className="flex-1 min-w-0">
                         <Link href={`/cards/${card.id}`} className="truncate text-sm font-medium hover:text-blue-600 dark:text-white">

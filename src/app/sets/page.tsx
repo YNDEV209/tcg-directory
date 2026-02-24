@@ -48,6 +48,7 @@ export default async function SetsPage() {
                   width={80}
                   height={40}
                   className="h-10 w-20 object-contain"
+                  sizes="80px"
                 />
               ) : (
                 <div className="flex h-10 w-20 items-center justify-center rounded bg-gray-100 text-xs text-gray-400 dark:bg-gray-700">
