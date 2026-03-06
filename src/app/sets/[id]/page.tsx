@@ -96,6 +96,31 @@ export default async function SetDetailPage({ params }: Props) {
           </div>
         </div>
 
+        <section className="space-y-2">
+          <p className="text-gray-600 leading-relaxed dark:text-gray-400">
+            {set.name} is a {gameName} set{set.release_date ? ` released on ${set.release_date}` : ''} containing {result.total} cards.
+            {set.series ? ` Part of the ${set.series} series, this` : ' This'} expansion features cards ranging from common staples to highly collectible rare pulls.
+          </p>
+          {result.data.filter(c => c.rarity_tier && c.rarity_tier >= 4).length > 0 && (
+            <div>
+              <h2 className="mt-4 text-lg font-semibold text-gray-900 dark:text-white">Set Highlights</h2>
+              <p className="mt-1 text-sm text-gray-600 dark:text-gray-400">
+                Top cards from this set include{' '}
+                {result.data
+                  .filter(c => c.rarity_tier && c.rarity_tier >= 4)
+                  .slice(0, 3)
+                  .map((c, i, arr) => {
+                    const suffix = c.rarity ? ` (${c.rarity})` : ''
+                    if (i === arr.length - 1 && arr.length > 1) return `and ${c.name}${suffix}`
+                    return `${c.name}${suffix}`
+                  })
+                  .join(', ')}
+                . Browse the full set below to discover every card.
+              </p>
+            </div>
+          )}
+        </section>
+
         <AdUnit slot="SET_LEADERBOARD" format="horizontal" />
 
         <div className="grid grid-cols-2 gap-2 sm:grid-cols-3 sm:gap-4 md:grid-cols-4 lg:grid-cols-6">

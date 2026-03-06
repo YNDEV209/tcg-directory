@@ -192,6 +192,42 @@ export async function getCardSets(cardId: string, gameId: string, setId: string 
   }]
 }
 
+export async function getRelatedCards(card: Card, limit = 6): Promise<Card[]> {
+  const { data } = await supabase
+    .from('cards')
+    .select('*')
+    .eq('game_id', card.game_id)
+    .ilike('name', `%${card.name.split(' ')[0]}%`)
+    .neq('id', card.id)
+    .order('rarity_tier', { ascending: false, nullsFirst: false })
+    .limit(limit)
+
+  if (data && data.length >= 2) return data as Card[]
+
+  const { data: fallback } = await supabase
+    .from('cards')
+    .select('*')
+    .eq('game_id', card.game_id)
+    .eq('rarity', card.rarity ?? '')
+    .neq('id', card.id)
+    .order('price_usd', { ascending: false, nullsFirst: false })
+    .limit(limit)
+
+  return (fallback || []) as Card[]
+}
+
+export async function getTopCards(gameId: string, limit = 10): Promise<Card[]> {
+  const { data, error } = await supabase
+    .from('cards')
+    .select('*')
+    .eq('game_id', gameId)
+    .not('price_usd', 'is', null)
+    .order('price_usd', { ascending: false })
+    .limit(limit)
+  if (error) throw new Error(error.message)
+  return (data || []) as Card[]
+}
+
 export async function getFilterOptions(game_id = 'pokemon') {
   const { data: rarityData } = await supabase.rpc('get_distinct_rarities', {
     gid: game_id,
