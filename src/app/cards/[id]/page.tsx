@@ -1,13 +1,14 @@
 import { notFound } from 'next/navigation'
 import Image from 'next/image'
 import Link from 'next/link'
-import { getCardById, getCardSets } from '@/lib/queries'
+import { getCardById, getCardSets, getRelatedCards } from '@/lib/queries'
 import { TYPE_COLORS } from '@/lib/constants'
 import { FavoriteButton } from '@/components/FavoriteButton'
 import { PriceSection } from '@/components/PriceDisplay'
 import { CompareButton } from '@/components/CompareButton'
 import { AdUnit } from '@/components/AdUnit'
 import { CardSets } from '@/components/CardSets'
+import { CardContext, RelatedCards } from '@/components/CardContext'
 import { siteUrl, breadcrumbJsonLd } from '@/lib/seo'
 import type { Metadata } from 'next'
 
@@ -46,7 +47,10 @@ export default async function CardDetailPage({ params }: Props) {
   const card = await getCardById(id)
   if (!card) notFound()
 
-  const cardSets = await getCardSets(card.id, card.game_id, card.set_id)
+  const [cardSets, relatedCards] = await Promise.all([
+    getCardSets(card.id, card.game_id, card.set_id),
+    getRelatedCards(card),
+  ])
 
   const isMtg = card.game_id === 'mtg'
   const isOp = card.game_id === 'onepiece'
@@ -358,6 +362,8 @@ export default async function CardDetailPage({ params }: Props) {
               </p>
             )}
 
+            <CardContext card={card} />
+
             {/* Meta */}
             <div className="flex flex-wrap gap-4 text-sm text-gray-500 dark:text-gray-400">
               {card.rarity && <span>Rarity: {card.rarity}</span>}
@@ -365,6 +371,10 @@ export default async function CardDetailPage({ params }: Props) {
               {card.number && <span>#{card.number}</span>}
             </div>
           </div>
+        </div>
+
+        <div className="mt-8">
+          <RelatedCards cards={relatedCards} />
         </div>
 
         <AdUnit slot="CARD_DETAIL_BOTTOM" format="rectangle" className="mx-auto max-w-3xl pt-8" />

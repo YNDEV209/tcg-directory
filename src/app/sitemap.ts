@@ -22,6 +22,13 @@ export default async function sitemap({ id }: { id: string }): Promise<MetadataR
       { url: baseUrl, changeFrequency: 'daily', priority: 1, lastModified: now },
       { url: `${baseUrl}/sets`, changeFrequency: 'weekly', priority: 0.8 },
       { url: `${baseUrl}/blog`, changeFrequency: 'weekly', priority: 0.8, lastModified: now },
+      { url: `${baseUrl}/prices`, changeFrequency: 'weekly', priority: 0.8, lastModified: now },
+      { url: `${baseUrl}/glossary`, changeFrequency: 'monthly', priority: 0.7 },
+      ...GAMES.map(g => ({
+        url: `${baseUrl}/guides/${g.id}`,
+        changeFrequency: 'monthly' as const,
+        priority: 0.7,
+      })),
       { url: `${baseUrl}/about`, changeFrequency: 'monthly', priority: 0.3 },
       { url: `${baseUrl}/privacy`, changeFrequency: 'monthly', priority: 0.3 },
       ...GAMES.map(g => ({

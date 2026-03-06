@@ -3,6 +3,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { searchCards } from '@/lib/queries'
 import { GAMES } from '@/lib/constants'
+import { GAME_CONTENT } from '@/lib/game-content'
 import { AdUnit } from '@/components/AdUnit'
 import { siteUrl, breadcrumbJsonLd } from '@/lib/seo'
 import type { Metadata } from 'next'
@@ -63,10 +64,22 @@ export default async function GamePage({ params }: Props) {
 
   const result = await searchCards({ game_id: game, sort_by: 'featured', sort_dir: 'desc', per_page: 24 })
 
+  const content = GAME_CONTENT[game]
+
   const breadcrumbs = breadcrumbJsonLd([
     { name: 'Home', url: siteUrl },
     { name: gameName, url: `${siteUrl}/games/${game}` },
   ])
+
+  const faqJsonLd = content ? {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: content.faq.map(f => ({
+      '@type': 'Question',
+      name: f.question,
+      acceptedAnswer: { '@type': 'Answer', text: f.answer },
+    })),
+  } : null
 
   return (
     <main className="min-h-screen bg-gray-50 dark:bg-gray-900">
@@ -74,6 +87,12 @@ export default async function GamePage({ params }: Props) {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbs) }}
       />
+      {faqJsonLd && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
+        />
+      )}
       <header className="border-b border-gray-200 bg-white px-4 py-4 shadow-sm dark:border-gray-700 dark:bg-gray-800">
         <div className="mx-auto flex max-w-7xl items-center gap-4">
           <Link href="/" className="text-gray-400 hover:text-blue-600 dark:hover:text-blue-400">&larr;</Link>
@@ -127,6 +146,66 @@ export default async function GamePage({ params }: Props) {
             View all {gameName} cards
           </Link>
         </div>
+
+        {content && (
+          <div className="space-y-10 border-t border-gray-200 pt-8 dark:border-gray-700">
+            <section className="space-y-4">
+              <h2 className="text-xl font-bold text-gray-900 dark:text-white">About {gameName}</h2>
+              {content.overview.map((p, i) => (
+                <p key={i} className="text-gray-600 leading-relaxed dark:text-gray-400">{p}</p>
+              ))}
+            </section>
+
+            <section className="space-y-3">
+              <h2 className="text-xl font-bold text-gray-900 dark:text-white">How to Play</h2>
+              <p className="text-gray-600 leading-relaxed dark:text-gray-400">{content.howToPlay}</p>
+              <Link
+                href={`/guides/${game}`}
+                className="inline-block text-sm font-medium text-blue-600 hover:underline dark:text-blue-400"
+              >
+                Read the full beginner&apos;s guide &rarr;
+              </Link>
+            </section>
+
+            <section className="space-y-3">
+              <h2 className="text-xl font-bold text-gray-900 dark:text-white">Key Mechanics</h2>
+              <div className="grid gap-4 sm:grid-cols-2">
+                {content.keyMechanics.map(m => (
+                  <div key={m.name} className="rounded-lg border border-gray-200 p-4 dark:border-gray-700">
+                    <h3 className="font-semibold text-gray-900 dark:text-white">{m.name}</h3>
+                    <p className="mt-1 text-sm text-gray-600 dark:text-gray-400">{m.description}</p>
+                  </div>
+                ))}
+              </div>
+            </section>
+
+            <section className="space-y-3">
+              <h2 className="text-xl font-bold text-gray-900 dark:text-white">Collecting Tips</h2>
+              <ul className="space-y-2">
+                {content.collectingTips.map((tip, i) => (
+                  <li key={i} className="flex gap-2 text-gray-600 dark:text-gray-400">
+                    <span className="mt-1 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-blue-500" />
+                    {tip}
+                  </li>
+                ))}
+              </ul>
+            </section>
+
+            <section className="space-y-4">
+              <h2 className="text-xl font-bold text-gray-900 dark:text-white">Frequently Asked Questions</h2>
+              <div className="space-y-4">
+                {content.faq.map((f, i) => (
+                  <details key={i} className="group rounded-lg border border-gray-200 dark:border-gray-700">
+                    <summary className="cursor-pointer px-4 py-3 font-medium text-gray-900 dark:text-white">
+                      {f.question}
+                    </summary>
+                    <p className="px-4 pb-4 text-gray-600 dark:text-gray-400">{f.answer}</p>
+                  </details>
+                ))}
+              </div>
+            </section>
+          </div>
+        )}
       </div>
     </main>
   )
