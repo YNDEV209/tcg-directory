@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import { GLOSSARY_TERMS } from '@/lib/glossary-content'
-import { GAMES } from '@/lib/constants'
+import { GAMES, GAME_ACCENTS } from '@/lib/constants'
 import { siteUrl, breadcrumbJsonLd } from '@/lib/seo'
 import type { Metadata } from 'next'
 
@@ -65,12 +65,12 @@ export default function GlossaryPage() {
           </p>
         </section>
 
-        <nav className="flex flex-wrap gap-2">
+        <nav className="sticky top-0 z-10 -mx-4 flex flex-wrap gap-2 bg-gray-50/80 px-4 py-3 backdrop-blur-sm dark:bg-gray-900/80">
           {letters.map(letter => (
             <a
               key={letter}
               href={`#letter-${letter}`}
-              className="flex h-8 w-8 items-center justify-center rounded bg-gray-200 text-sm font-medium text-gray-700 hover:bg-blue-100 hover:text-blue-700 dark:bg-gray-700 dark:text-gray-300 dark:hover:bg-blue-900 dark:hover:text-blue-300"
+              className="flex h-8 w-8 items-center justify-center rounded bg-white text-sm font-medium text-gray-700 shadow-sm border border-gray-100 transition-all hover:bg-blue-500 hover:text-white hover:shadow-md dark:bg-gray-800 dark:border-gray-700 dark:text-gray-300 dark:hover:bg-blue-600"
             >
               {letter}
             </a>
@@ -81,20 +81,21 @@ export default function GlossaryPage() {
           const terms = sorted.filter(t => t.term[0].toUpperCase() === letter)
           return (
             <section key={letter} id={`letter-${letter}`} className="space-y-4">
-              <h3 className="text-xl font-bold text-gray-900 dark:text-white border-b border-gray-200 pb-2 dark:border-gray-700">
+              <h3 className="flex items-center gap-3 text-xl font-bold text-gray-900 dark:text-white">
+                <span className="flex h-10 w-10 items-center justify-center rounded-lg bg-blue-500 text-lg font-bold text-white">{letter}</span>
                 {letter}
               </h3>
-              <dl className="space-y-4">
+              <dl className="space-y-3">
                 {terms.map(t => (
-                  <div key={t.term}>
-                    <dt className="font-semibold text-gray-900 dark:text-white">{t.term}</dt>
-                    <dd className="mt-1 text-gray-600 dark:text-gray-400">{t.definition}</dd>
-                    <dd className="mt-1 flex flex-wrap gap-1">
+                  <div key={t.term} className="rounded-lg bg-white p-4 shadow-sm dark:bg-gray-800">
+                    <dt className="text-lg font-semibold text-gray-900 dark:text-white">{t.term}</dt>
+                    <dd className="mt-1 text-gray-600 leading-relaxed dark:text-gray-400">{t.definition}</dd>
+                    <dd className="mt-2 flex flex-wrap gap-1">
                       {t.games.map(gid => (
                         <Link
                           key={gid}
                           href={`/games/${gid}`}
-                          className="rounded bg-gray-100 px-1.5 py-0.5 text-[10px] font-medium text-gray-600 hover:bg-blue-100 hover:text-blue-700 dark:bg-gray-700 dark:text-gray-400 dark:hover:bg-blue-900 dark:hover:text-blue-300"
+                          className={`rounded px-1.5 py-0.5 text-[10px] font-medium transition-colors ${GAME_ACCENTS[gid]?.bg || 'bg-gray-100 dark:bg-gray-700'} text-gray-600 hover:text-blue-700 dark:text-gray-400 dark:hover:text-blue-300`}
                         >
                           {gameNameMap[gid] || gid}
                         </Link>

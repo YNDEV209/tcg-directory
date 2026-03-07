@@ -1,6 +1,6 @@
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
-import { GAMES } from '@/lib/constants'
+import { GAMES, GAME_ACCENTS } from '@/lib/constants'
 import { GUIDE_CONTENT } from '@/lib/guide-content'
 import { siteUrl, breadcrumbJsonLd } from '@/lib/seo'
 import type { Metadata } from 'next'
@@ -78,8 +78,8 @@ export default async function GuidePage({ params }: Props) {
           <p className="text-lg text-gray-600 leading-relaxed dark:text-gray-400">{guide.intro}</p>
         </div>
 
-        <nav className="rounded-lg border border-gray-200 p-4 dark:border-gray-700">
-          <p className="mb-2 text-sm font-semibold text-gray-500 dark:text-gray-400">In this guide</p>
+        <nav className="rounded-xl bg-gradient-to-br from-gray-50 to-gray-100 p-5 shadow-sm dark:from-gray-800 dark:to-gray-800/50">
+          <p className="mb-2 text-xs font-bold uppercase tracking-wider text-gray-400 dark:text-gray-500">In this guide</p>
           <ul className="space-y-1">
             {guide.sections.map((s, i) => (
               <li key={i}>
@@ -97,7 +97,7 @@ export default async function GuidePage({ params }: Props) {
         </nav>
 
         {guide.sections.map((section, i) => (
-          <section key={i} id={`section-${i}`} className="space-y-3">
+          <section key={i} id={`section-${i}`} className={`space-y-3 border-l-2 ${GAME_ACCENTS[game]?.border || 'border-l-blue-500'} pl-4`}>
             <h3 className="text-xl font-bold text-gray-900 dark:text-white">{section.heading}</h3>
             {section.content.map((p, j) => (
               <p key={j} className="text-gray-600 leading-relaxed dark:text-gray-400">{p}</p>
@@ -105,12 +105,13 @@ export default async function GuidePage({ params }: Props) {
           </section>
         ))}
 
-        <section id="faq" className="space-y-4 border-t border-gray-200 pt-8 dark:border-gray-700">
+        <section id="faq" className="space-y-4 pt-8">
+          <div className="h-px bg-gradient-to-r from-transparent via-gray-300 to-transparent dark:via-gray-600" />
           <h3 className="text-xl font-bold text-gray-900 dark:text-white">Frequently Asked Questions</h3>
-          <div className="space-y-4">
+          <div className="space-y-3">
             {guide.faq.map((f, i) => (
-              <details key={i} className="group rounded-lg border border-gray-200 dark:border-gray-700">
-                <summary className="cursor-pointer px-4 py-3 font-medium text-gray-900 dark:text-white">
+              <details key={i} className="group rounded-lg border border-gray-200 bg-white shadow-sm transition-all hover:shadow-md dark:border-gray-700 dark:bg-gray-800 [&[open]]:ring-1 [&[open]]:ring-blue-500/20">
+                <summary className="flex cursor-pointer items-center px-4 py-3 font-medium text-gray-900 dark:text-white">
                   {f.question}
                 </summary>
                 <p className="px-4 pb-4 text-gray-600 dark:text-gray-400">{f.answer}</p>
@@ -119,7 +120,7 @@ export default async function GuidePage({ params }: Props) {
           </div>
         </section>
 
-        <div className="flex gap-4 border-t border-gray-200 pt-6 dark:border-gray-700">
+        <div className="flex gap-4 rounded-xl bg-gradient-to-r from-blue-50 to-purple-50 p-6 dark:from-blue-900/20 dark:to-purple-900/20">
           <Link
             href={`/games/${game}`}
             className="rounded-lg bg-blue-600 px-5 py-2.5 text-sm font-medium text-white hover:bg-blue-700"

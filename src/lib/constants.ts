@@ -1,3 +1,11 @@
+export const GAME_ACCENTS: Record<string, { border: string; borderTop: string; dot: string; bg: string }> = {
+  pokemon: { border: 'border-l-red-500', borderTop: 'border-t-red-500', dot: 'bg-red-500', bg: 'bg-red-50 dark:bg-red-950/30' },
+  mtg: { border: 'border-l-blue-700', borderTop: 'border-t-blue-700', dot: 'bg-blue-700', bg: 'bg-blue-50 dark:bg-blue-950/30' },
+  yugioh: { border: 'border-l-violet-500', borderTop: 'border-t-violet-500', dot: 'bg-violet-500', bg: 'bg-violet-50 dark:bg-violet-950/30' },
+  onepiece: { border: 'border-l-red-600', borderTop: 'border-t-red-600', dot: 'bg-red-600', bg: 'bg-red-50 dark:bg-red-950/30' },
+  gundam: { border: 'border-l-amber-500', borderTop: 'border-t-amber-500', dot: 'bg-amber-500', bg: 'bg-amber-50 dark:bg-amber-950/30' },
+}
+
 export const POKEMON_TYPES = [
   'Colorless',
   'Darkness',
