@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import Image from 'next/image'
 import { getTopCards } from '@/lib/queries'
-import { GAMES } from '@/lib/constants'
+import { GAMES, GAME_ACCENTS } from '@/lib/constants'
 import { siteUrl, breadcrumbJsonLd } from '@/lib/seo'
 import type { Metadata } from 'next'
 
@@ -63,6 +63,7 @@ export default async function PricesPage() {
 
         {gameCards.map(({ game, cards }) => (
           <section key={game.id} className="space-y-4">
+            <div className={`h-1 w-8 rounded-full ${GAME_ACCENTS[game.id]?.dot || 'bg-blue-500'}`} />
             <div className="flex items-center justify-between">
               <h2 className="text-xl font-bold text-gray-900 dark:text-white">
                 Top {game.name} Cards by Value
@@ -78,10 +79,10 @@ export default async function PricesPage() {
               {MARKET_CONTEXT[game.id]}
             </p>
             {cards.length > 0 ? (
-              <div className="overflow-x-auto">
+              <div className="overflow-hidden rounded-lg border border-gray-200 dark:border-gray-700">
                 <table className="w-full text-sm">
                   <thead>
-                    <tr className="border-b border-gray-200 dark:border-gray-700">
+                    <tr className="border-b-2 border-gray-200 bg-gray-50 dark:border-gray-600 dark:bg-gray-800/50">
                       <th className="py-2 pr-4 text-left font-medium text-gray-500 dark:text-gray-400">#</th>
                       <th className="py-2 pr-4 text-left font-medium text-gray-500 dark:text-gray-400">Card</th>
                       <th className="py-2 pr-4 text-left font-medium text-gray-500 dark:text-gray-400">Set</th>
@@ -91,8 +92,8 @@ export default async function PricesPage() {
                   </thead>
                   <tbody>
                     {cards.map((card, i) => (
-                      <tr key={card.id} className="border-b border-gray-100 dark:border-gray-800">
-                        <td className="py-2 pr-4 text-gray-400">{i + 1}</td>
+                      <tr key={card.id} className="border-b border-gray-100 even:bg-gray-50 dark:border-gray-800 dark:even:bg-gray-800/50">
+                        <td className="py-2.5 pr-4 pl-3 font-bold text-gray-300 tabular-nums dark:text-gray-600">{i + 1}</td>
                         <td className="py-2 pr-4">
                           <Link href={`/cards/${card.id}`} className="flex items-center gap-2 hover:text-blue-600 dark:hover:text-blue-400">
                             {card.image_small && (
@@ -117,7 +118,7 @@ export default async function PricesPage() {
           </section>
         ))}
 
-        <section className="rounded-lg border border-gray-200 p-6 dark:border-gray-700 space-y-3">
+        <section className="rounded-xl bg-gradient-to-br from-gray-50 to-gray-100 p-6 shadow-sm dark:from-gray-800 dark:to-gray-800/50 space-y-3">
           <h2 className="text-lg font-bold text-gray-900 dark:text-white">About Our Pricing Data</h2>
           <p className="text-sm text-gray-600 dark:text-gray-400">
             Card prices displayed on TCG Directory are sourced from TCGplayer (North American market) and Cardmarket (European market) where available. Prices reflect recent market activity and are updated regularly. Actual transaction prices may vary based on card condition, seller, and market fluctuations. Always verify current prices on the marketplace before making purchase decisions.

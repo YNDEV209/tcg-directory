@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import { siteUrl } from '@/lib/seo'
 import { getAllPosts } from '@/lib/blog'
-import { GAMES } from '@/lib/constants'
+import { GAMES, GAME_ACCENTS } from '@/lib/constants'
 import HomeContent from '@/components/HomeContent'
 
 export const metadata: Metadata = {
@@ -27,8 +27,9 @@ export default function Page() {
       <HomeContent />
 
       <div className="mx-auto max-w-7xl px-4 pb-12 space-y-12">
-        <section className="space-y-4">
-          <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
+        <section className="gradient-hero-home rounded-2xl p-8 space-y-4">
+          <div className="h-1 w-16 rounded-full bg-gradient-to-r from-blue-500 to-purple-500" />
+          <h2 className="text-3xl font-bold text-gray-900 dark:text-white">
             Your Complete Trading Card Game Database
           </h2>
           <p className="max-w-3xl text-gray-600 leading-relaxed dark:text-gray-400">
@@ -42,22 +43,22 @@ export default function Page() {
         <section className="space-y-4">
           <h2 className="text-2xl font-bold text-gray-900 dark:text-white">How It Works</h2>
           <div className="grid gap-6 sm:grid-cols-3">
-            <div className="rounded-lg border border-gray-200 p-5 dark:border-gray-700">
-              <div className="mb-2 text-2xl font-bold text-blue-600">1</div>
+            <div className="rounded-lg border border-gray-200 bg-white p-5 shadow-sm transition-shadow hover:shadow-md dark:border-gray-700 dark:bg-gray-800">
+              <div className="mb-3 flex h-10 w-10 items-center justify-center rounded-full bg-gradient-to-br from-blue-500 to-blue-600 text-sm font-bold text-white shadow-md">1</div>
               <h3 className="font-semibold text-gray-900 dark:text-white">Search & Filter</h3>
               <p className="mt-1 text-sm text-gray-600 dark:text-gray-400">
                 Find cards instantly across all five games. Use advanced filters for type, rarity, set, HP, and more to narrow down exactly what you&apos;re looking for.
               </p>
             </div>
-            <div className="rounded-lg border border-gray-200 p-5 dark:border-gray-700">
-              <div className="mb-2 text-2xl font-bold text-blue-600">2</div>
+            <div className="rounded-lg border border-gray-200 bg-white p-5 shadow-sm transition-shadow hover:shadow-md dark:border-gray-700 dark:bg-gray-800">
+              <div className="mb-3 flex h-10 w-10 items-center justify-center rounded-full bg-gradient-to-br from-blue-500 to-blue-600 text-sm font-bold text-white shadow-md">2</div>
               <h3 className="font-semibold text-gray-900 dark:text-white">Compare & Evaluate</h3>
               <p className="mt-1 text-sm text-gray-600 dark:text-gray-400">
                 Compare cards side-by-side to evaluate stats, prices, and abilities. Check current market values from TCGplayer and Cardmarket to make informed buying decisions.
               </p>
             </div>
-            <div className="rounded-lg border border-gray-200 p-5 dark:border-gray-700">
-              <div className="mb-2 text-2xl font-bold text-blue-600">3</div>
+            <div className="rounded-lg border border-gray-200 bg-white p-5 shadow-sm transition-shadow hover:shadow-md dark:border-gray-700 dark:bg-gray-800">
+              <div className="mb-3 flex h-10 w-10 items-center justify-center rounded-full bg-gradient-to-br from-blue-500 to-blue-600 text-sm font-bold text-white shadow-md">3</div>
               <h3 className="font-semibold text-gray-900 dark:text-white">Build & Collect</h3>
               <p className="mt-1 text-sm text-gray-600 dark:text-gray-400">
                 Save favorites, build custom decks, and organize your collection. Plan your next purchase with price tracking and set browsing tools.
@@ -73,7 +74,7 @@ export default function Page() {
               <Link
                 key={game.id}
                 href={`/games/${game.id}`}
-                className="rounded-lg border border-gray-200 p-5 transition-colors hover:border-blue-300 hover:bg-blue-50/50 dark:border-gray-700 dark:hover:border-blue-700 dark:hover:bg-blue-900/10"
+                className={`rounded-lg border border-gray-200 border-l-4 ${GAME_ACCENTS[game.id]?.border || ''} bg-white p-5 shadow-sm transition-all hover:-translate-y-0.5 hover:shadow-md dark:border-gray-700 dark:bg-gray-800`}
               >
                 <h3 className="font-semibold text-gray-900 dark:text-white">{game.name}</h3>
                 <p className="mt-1 text-sm text-gray-600 dark:text-gray-400">
@@ -97,13 +98,13 @@ export default function Page() {
                 <Link
                   key={post.slug}
                   href={`/blog/${post.slug}`}
-                  className="rounded-lg border border-gray-200 p-5 transition-colors hover:border-blue-300 dark:border-gray-700 dark:hover:border-blue-700"
+                  className="rounded-lg border border-gray-200 bg-white p-5 shadow-sm transition-all hover:-translate-y-0.5 hover:shadow-md dark:border-gray-700 dark:bg-gray-800"
                 >
-                  <p className="text-xs text-gray-500 dark:text-gray-400">
+                  <p className="inline-block rounded-full bg-blue-50 px-2.5 py-0.5 text-xs text-gray-500 dark:bg-blue-900/30 dark:text-gray-400">
                     {new Date(post.date).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}
                     {post.game && ` · ${post.game}`}
                   </p>
-                  <h3 className="mt-1 font-semibold text-gray-900 dark:text-white">{post.title}</h3>
+                  <h3 className="mt-2 font-semibold text-gray-900 dark:text-white">{post.title}</h3>
                   <p className="mt-1 text-sm text-gray-600 line-clamp-2 dark:text-gray-400">{post.description}</p>
                 </Link>
               ))}
