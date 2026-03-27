@@ -7,6 +7,8 @@ import { AdUnit } from '@/components/AdUnit'
 import { siteUrl, breadcrumbJsonLd } from '@/lib/seo'
 import type { Metadata } from 'next'
 
+export const revalidate = 86400
+
 interface Props {
   params: Promise<{ id: string }>
 }

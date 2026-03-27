@@ -12,6 +12,8 @@ import { CardContext, RelatedCards } from '@/components/CardContext'
 import { siteUrl, breadcrumbJsonLd } from '@/lib/seo'
 import type { Metadata } from 'next'
 
+export const revalidate = 86400
+
 interface Props {
   params: Promise<{ id: string }>
 }
@@ -130,6 +132,7 @@ export default async function CardDetailPage({ params }: Props) {
                 className="w-full h-auto rounded-xl shadow-2xl"
                 sizes="(max-width: 490px) 100vw, 490px"
                 priority
+                unoptimized
               />
             ) : (
               <div className="aspect-[490/680] w-full flex items-center justify-center rounded-xl bg-gray-200 text-gray-400">

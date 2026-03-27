@@ -8,6 +8,8 @@ import { AdUnit } from '@/components/AdUnit'
 import { siteUrl, breadcrumbJsonLd } from '@/lib/seo'
 import type { Metadata } from 'next'
 
+export const revalidate = 86400
+
 const GAME_INFO: Record<string, { title: string; description: string; intro: string }> = {
   pokemon: {
     title: 'Pokemon TCG Card Database',

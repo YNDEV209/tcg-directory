@@ -5,6 +5,8 @@ import { AdUnit } from '@/components/AdUnit'
 import { siteUrl } from '@/lib/seo'
 import type { Metadata } from 'next'
 
+export const revalidate = 86400
+
 export const metadata: Metadata = {
   title: 'Browse Sets | TCG Directory',
   description: 'Browse all TCG card sets for Pokemon, MTG, Yu-Gi-Oh!, One Piece, and Gundam',
